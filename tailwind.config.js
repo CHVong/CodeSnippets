@@ -12,13 +12,23 @@ module.exports = {
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       animation: {
-        fadeIn: "fadeIn 1s ease-in-out",
+        fadeIn: "fadeIn 0.5s ease-in-out",
         fadeOut: "fadeOut 8s ease-out",
         loader: "loader 0.6s infinite alternate",
-        slideUp: "slideUp 1s ease",
-        slideDown: "slideDown 1s ease",
+        slideUp: "slideUp 1s ease-in-out",
+        slideDown: "slideDown 1s ease-in-out",
+        slideRight: "slideRight 1s ease-in-out",
+        slideLeft: "slideLeft 1s ease-in-out",
       },
       keyframes: {
+        slideRight: {
+          "0%": { opacity: 0, transform: "translateX(-10%)", visibility: "hidden" },
+          "100%": { opacity: 1, transform: "translateY(0)", visibility: "visible" },
+        },
+        slideLeft: {
+          "0%": { opacity: 0, transform: "translateX(10%)", visibility: "hidden" },
+          "100%": { opacity: 1, transform: "translateY(0)", visibility: "visible" },
+        },
         slideDown: {
           "0%": { opacity: 0, transform: "translateY(-100%)", visibility: "hidden" },
           "100%": { opacity: 1, transform: "translateY(0)", visibility: "visible" },
