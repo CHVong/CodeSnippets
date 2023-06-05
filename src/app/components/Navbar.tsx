@@ -10,15 +10,17 @@ export default function Navbar() {
   const bracketsEffect =
     "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative";
 
-  const hoverEffect = "transition-all duration-300 hover:text-blue-500 hover:font-bold";
+  const hoverEffect =
+    "transition-all duration-300 hover:text-blue-500 hover:font-bold hover:dark:text-blue-300";
 
   const activeLink =
-    "before:content-['['] after:content-[']'] before:absolute after:absolute before:-left-4 after:-right-4 text-blue-500 font-bold relative";
+    "before:content-['['] after:content-[']'] before:absolute after:absolute before:-left-4 after:-right-4 text-blue-500 dark:text-blue-300 font-bold relative";
 
   const navLinks = [
-    { name: "🏡 About", href: "/about" },
-    { name: "📦 Log In", href: "/login" },
-    { name: "📘 Sign Up", href: "/signup" },
+    { name: "About", href: "/about" },
+    { name: "Explore", href: "/explore" },
+    { name: "Log In", href: "/login" },
+    { name: "Sign Up", href: "/signup" },
   ];
 
   return (
@@ -31,6 +33,7 @@ export default function Navbar() {
             width={50}
             alt="Navigation Logo Image"
             priority={true}
+            className="transition-all hover:scale-90 duration-300"
           />
         </Link>
       </div>
