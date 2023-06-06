@@ -3,21 +3,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const bracketsEffect =
-    "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative";
+    "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative ";
 
   const hoverEffect =
-    "transition-all duration-300 hover:text-blue-500 hover:font-bold hover:dark:text-blue-300";
+    "transition-all duration-300 hover:text-blue-500 hover:font-bold hover:dark:text-blue-300 ";
 
   const activeLink =
-    "before:content-['['] after:content-[']'] before:absolute after:absolute before:-left-4 after:-right-4 text-blue-500 dark:text-blue-300 font-bold relative";
+    "before:content-['['] after:content-[']'] before:absolute after:absolute before:-left-4 after:-right-4 text-blue-500 dark:text-blue-300 font-bold relative outline-none";
 
   const publicNavLinks = [
     { name: "About", href: "/about" },
@@ -27,11 +28,30 @@ export default function Navbar() {
   const privateNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
-    { name: "Sign Out", href: "/signout" },
     { name: "Profile", href: "/profile" },
+    { name: "Sign Out", href: "/signout" },
   ];
 
-  const isLoggedIn = false;
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape" /* || event.key === "Enter" */) {
+        setShowMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuRef]);
+
+  const isLoggedIn = true;
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -91,7 +111,10 @@ export default function Navbar() {
                 setShowMenu((prev) => !prev);
               }}
             />
-            <div className="z-10 absolute top-full animate-fadeIn p-10 border-2 border-blue-900 rounded-md w-full bg-neutral-100 dark:bg-black mt-4">
+            <div
+              className="z-10 absolute top-full animate-fadeIn p-10 border-2 border-blue-900 rounded-md w-full bg-neutral-100 dark:bg-black mt-4"
+              ref={menuRef}
+            >
               <div className="flex flex-col items-center justify-center relative w-max m-auto">
                 {isLoggedIn
                   ? privateNavLinks.map((link) => {
