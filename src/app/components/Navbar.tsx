@@ -6,10 +6,14 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import Loader from "./Loader";
 
 export default function Navbar() {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
+  const isLoggedIn = true;
+  const [showMenu, setShowMenu] = useState(false);
+  const { data: session } = useSession();
 
   const bracketsEffect =
     "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative ";
@@ -29,7 +33,6 @@ export default function Navbar() {
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
     { name: "Profile", href: "/profile" },
-    { name: "Sign Out", href: "/signout" },
   ];
 
   useEffect(() => {
@@ -50,11 +53,7 @@ export default function Navbar() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [menuRef]);
-
-  const isLoggedIn = true;
-
-  const [showMenu, setShowMenu] = useState(false);
-
+  // console.log(session);
   return (
     <nav className="flex items-center justify-between xl:justify-around  animate-fadeIn text-lg relative m-6">
       <div>
@@ -73,7 +72,7 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="hidden lg:flex gap-8 items-center">
-        {isLoggedIn
+        {session
           ? privateNavLinks.map((link) => {
               const isActive = pathname.startsWith(link.href);
               return (
@@ -86,7 +85,8 @@ export default function Navbar() {
                 </Link>
               );
             })
-          : publicNavLinks.map((link) => {
+          : session === null
+          ? publicNavLinks.map((link) => {
               const isActive = pathname.startsWith(link.href);
               return (
                 <Link
@@ -97,7 +97,25 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               );
-            })}
+            })
+          : ""}
+        {
+          session ? (
+            <button onClick={() => signOut()} className={`${hoverEffect} ${bracketsEffect}`}>
+              Sign Out
+            </button>
+          ) : (
+            <Loader />
+          )
+
+          // session === null ? (
+          //   <button onClick={() => signIn()} className={`${hoverEffect} ${bracketsEffect}`}>
+          //     Sign In
+          //   </button>
+          // ) : (
+          //   ""
+          // )
+        }
       </div>
 
       {/* MOBILE NAV */}
@@ -112,11 +130,11 @@ export default function Navbar() {
               }}
             />
             <div
-              className="z-10 absolute top-full animate-fadeIn p-10 border-2 border-blue-900 rounded-md w-full bg-neutral-100 dark:bg-black mt-4"
+              className="z-10 absolute top-full animate-fadeIn p-8 md:p-10 border-2 border-blue-900 rounded-md w-full md:w-1/2 bg-neutral-100 dark:bg-black mt-4"
               ref={menuRef}
             >
-              <div className="flex flex-col items-center justify-center relative w-max m-auto">
-                {isLoggedIn
+              <div className="flex flex-col items-center justify-center relative w-max m-auto gap-2 md:gap-4">
+                {session
                   ? privateNavLinks.map((link) => {
                       const isActive = pathname.startsWith(link.href);
                       return (

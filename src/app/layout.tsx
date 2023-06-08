@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Space_Grotesk } from "next/font/google";
+import ProvidersWrapper from "./components/ProvidersWrapper";
 
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });
 import Navbar from "./components/Navbar";
@@ -18,8 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${space_grotesk.className} scrollbar min-h-screen flex flex-col overflow-scroll`}
       >
-        <Navbar />
-        {children}
+        <ProvidersWrapper>
+          <Navbar />
+          {children}
+        </ProvidersWrapper>
       </body>
     </html>
   );
