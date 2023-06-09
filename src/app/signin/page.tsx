@@ -1,10 +1,7 @@
 "use client";
 
 import PageTitle from "../components/PageTitle";
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getProviders, signIn } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-// import { authOptions } from "../api/auth/[...nextauth]/route";
+import { signIn } from "next-auth/react";
 
 export const metadata = {
   title: "Code Snippets | Sign In",

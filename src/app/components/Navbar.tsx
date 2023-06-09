@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { signIn, signOut, useSession, getProviders, getSession } from "next-auth/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Loader from "./Loader";
 
@@ -14,7 +14,11 @@ export default function Navbar() {
   const isLoggedIn = true;
   const [showMenu, setShowMenu] = useState(false);
   const { data: session } = useSession();
-
+  async function myFunction() {
+    const session = await getSession();
+    /* ... */ console.log(session);
+  }
+  myFunction();
   const bracketsEffect =
     "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative ";
 
@@ -27,12 +31,15 @@ export default function Navbar() {
   const publicNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
+    { name: "Profile", href: "/profile" },
+    { name: "Protect", href: "/protect" },
     { name: "Sign In", href: "/signin" },
   ];
   const privateNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
     { name: "Profile", href: "/profile" },
+    { name: "Protect", href: "/protect" },
   ];
 
   useEffect(() => {
@@ -71,52 +78,64 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      <div className="hidden lg:flex gap-8 items-center">
-        {session
-          ? privateNavLinks.map((link) => {
-              const isActive = pathname.startsWith(link.href);
-              return (
-                <Link
-                  className={isActive ? `${activeLink}` : `${hoverEffect} ${bracketsEffect}`}
-                  href={link.href}
-                  key={link.name}
-                >
-                  {link.name}
-                </Link>
-              );
-            })
-          : session === null
-          ? publicNavLinks.map((link) => {
-              const isActive = pathname.startsWith(link.href);
-              return (
-                <Link
-                  className={isActive ? `${activeLink}` : `${hoverEffect} ${bracketsEffect}`}
-                  href={link.href}
-                  key={link.name}
-                >
-                  {link.name}
-                </Link>
-              );
-            })
-          : ""}
-        {
-          session ? (
-            <button onClick={() => signOut()} className={`${hoverEffect} ${bracketsEffect}`}>
-              Sign Out
-            </button>
-          ) : (
-            <Loader />
-          )
 
-          // session === null ? (
-          //   <button onClick={() => signIn()} className={`${hoverEffect} ${bracketsEffect}`}>
-          //     Sign In
-          //   </button>
-          // ) : (
-          //   ""
-          // )
-        }
-      </div>
+      {session ? (
+        <div className="hidden lg:flex gap-8 items-center animate-fadeIn">
+          {privateNavLinks.map((link) => {
+            const isActive = pathname.startsWith(link.href);
+            return (
+              <Link
+                className={isActive ? `${activeLink}` : `${hoverEffect} ${bracketsEffect}`}
+                href={link.href}
+                key={link.name}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+          <button onClick={() => signOut()} className={`${hoverEffect} ${bracketsEffect}`}>
+            Sign Out
+          </button>
+        </div>
+      ) : session === null ? (
+        <div className="hidden lg:flex gap-8 items-center animate-fadeIn">
+          {publicNavLinks.map((link) => {
+            const isActive = pathname.startsWith(link.href);
+            return (
+              <Link
+                className={isActive ? `${activeLink}` : `${hoverEffect} ${bracketsEffect}`}
+                href={link.href}
+                key={link.name}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </div>
+      ) : (
+        <Loader />
+      )}
+      {/* {
+        session ? (
+          <button onClick={() => signOut()} className={`${hoverEffect} ${bracketsEffect}`}>
+            Sign Out
+          </button>
+        ) : session === null ? (
+          ""
+        ) : (
+          <div className="hidden lg:flex gap-8 items-center animate-fadeIn">
+            <Loader />
+          </div>
+        )
+
+        // session === null ? (
+        //   <button onClick={() => signIn()} className={`${hoverEffect} ${bracketsEffect}`}>
+        //     Sign In
+        //   </button>
+        // ) : (
+        //   ""
+        // )
+      } */}
 
       {/* MOBILE NAV */}
 
