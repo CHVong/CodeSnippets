@@ -1,4 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
@@ -9,6 +11,8 @@ const githubClientID = process.env?.GITHUB_ID || "";
 const githubClientSecret = process.env?.GITHUB_CLIENT_SECRET || "";
 const discordClientID = process.env?.DISCORD_ID || "";
 const discordClientSecret = process.env?.DISCORD_CLIENT_SECRET || "";
+
+const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -32,4 +36,5 @@ export const authOptions: NextAuthOptions = {
     signIn: "/signin",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  adapter: PrismaAdapter(prisma),
 };
