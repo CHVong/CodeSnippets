@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import { signIn, signOut, useSession, getProviders, getSession } from "next-auth/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Loader from "./Loader";
+import { redirect } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -23,10 +24,10 @@ export default function Navbar() {
     "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative ";
 
   const hoverEffect =
-    "transition-all duration-300 hover:text-blue-500 hover:font-bold hover:dark:text-blue-300 ";
+    "transition-all duration-300 hover:text-blue-500 hover:font-bold hover:dark:text-blue-400 ";
 
   const activeLink =
-    "before:content-['['] after:content-[']'] before:absolute after:absolute before:-left-4 after:-right-4 text-blue-500 dark:text-blue-300 font-bold relative outline-none";
+    "before:content-['['] after:content-[']'] before:absolute after:absolute before:-left-4 after:-right-4 text-blue-500 dark:text-blue-400 font-bold relative outline-none";
 
   const publicNavLinks = [
     { name: "About", href: "/about" },
@@ -38,8 +39,8 @@ export default function Navbar() {
   const privateNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
-    { name: "Profile", href: "/profile" },
     { name: "Protect", href: "/protect" },
+    { name: "Create", href: "/create" },
   ];
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function Navbar() {
     };
   }, [menuRef]);
   // console.log(session);
+
   return (
     <nav className="flex items-center justify-between animate-fadeIn text-lg relative m-6 lg:w-3/4 lg:mx-auto">
       <div>
@@ -96,6 +98,13 @@ export default function Navbar() {
           <button onClick={() => signOut()} className={`${hoverEffect} ${bracketsEffect}`}>
             Sign Out
           </button>
+          <Link href="/profile">
+            <div className="avatar cursor-pointer w-10" onClick={() => redirect("/profile")}>
+              <div className="w-24 rounded-full ring hover:ring-blue-600 ring-offset-base-100 ring-offset-2 transition duration-300">
+                <img src={session?.user?.image} alt="user image" />
+              </div>
+            </div>
+          </Link>
         </div>
       ) : session === null ? (
         <div className="hidden lg:flex gap-8 items-center animate-fadeIn">
@@ -134,6 +143,13 @@ export default function Navbar() {
               ref={menuRef}
             >
               <div className="flex flex-col items-center justify-center relative w-max m-auto gap-2 md:gap-4">
+                <Link href="/profile">
+                  <div className="avatar cursor-pointer w-10" onClick={() => redirect("/profile")}>
+                    <div className="w-24 rounded-full ring hover:ring-blue-600 ring-offset-base-100 ring-offset-2 transition duration-300">
+                      <img src={session?.user?.image} alt="user image" />
+                    </div>
+                  </div>
+                </Link>
                 {session ? (
                   <>
                     {privateNavLinks.map((link) => {

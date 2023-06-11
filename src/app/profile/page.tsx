@@ -32,9 +32,9 @@ export default async function Profile() {
       <pre>{JSON.stringify(session)}</pre>
       <User />
       <div>
-        {data.map((e: any) => {
+        {data.map((e: any, i: any) => {
           return (
-            <div>
+            <div key={i}>
               <Image src={e.image} width={50} height={50} alt="profile pic" />
             </div>
           );
