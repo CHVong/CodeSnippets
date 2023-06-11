@@ -62,7 +62,7 @@ export default function Navbar() {
   }, [menuRef]);
   // console.log(session);
   return (
-    <nav className="flex items-center justify-between xl:justify-around  animate-fadeIn text-lg relative m-6">
+    <nav className="flex items-center justify-between animate-fadeIn text-lg relative m-6 lg:w-3/4 lg:mx-auto">
       <div>
         <Link href={"/"}>
           <Image
@@ -113,29 +113,10 @@ export default function Navbar() {
           })}
         </div>
       ) : (
-        <Loader />
+        <div className="invisible lg:visible">
+          <Loader />
+        </div>
       )}
-      {/* {
-        session ? (
-          <button onClick={() => signOut()} className={`${hoverEffect} ${bracketsEffect}`}>
-            Sign Out
-          </button>
-        ) : session === null ? (
-          ""
-        ) : (
-          <div className="hidden lg:flex gap-8 items-center animate-fadeIn">
-            <Loader />
-          </div>
-        )
-
-        // session === null ? (
-        //   <button onClick={() => signIn()} className={`${hoverEffect} ${bracketsEffect}`}>
-        //     Sign In
-        //   </button>
-        // ) : (
-        //   ""
-        // )
-      } */}
 
       {/* MOBILE NAV */}
 
@@ -153,25 +134,9 @@ export default function Navbar() {
               ref={menuRef}
             >
               <div className="flex flex-col items-center justify-center relative w-max m-auto gap-2 md:gap-4">
-                {session
-                  ? privateNavLinks.map((link) => {
-                      const isActive = pathname.startsWith(link.href);
-                      return (
-                        <Link
-                          className={
-                            isActive ? `${activeLink}` : `${hoverEffect} ${bracketsEffect}`
-                          }
-                          href={link.href}
-                          key={link.name}
-                          onClick={() => {
-                            setShowMenu((prev) => !prev);
-                          }}
-                        >
-                          {link.name}
-                        </Link>
-                      );
-                    })
-                  : publicNavLinks.map((link) => {
+                {session ? (
+                  <>
+                    {privateNavLinks.map((link) => {
                       const isActive = pathname.startsWith(link.href);
                       return (
                         <Link
@@ -188,6 +153,30 @@ export default function Navbar() {
                         </Link>
                       );
                     })}
+                    <button
+                      onClick={() => signOut()}
+                      className={`${hoverEffect} ${bracketsEffect}`}
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  publicNavLinks.map((link) => {
+                    const isActive = pathname.startsWith(link.href);
+                    return (
+                      <Link
+                        className={isActive ? `${activeLink}` : `${hoverEffect} ${bracketsEffect}`}
+                        href={link.href}
+                        key={link.name}
+                        onClick={() => {
+                          setShowMenu((prev) => !prev);
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    );
+                  })
+                )}
               </div>
             </div>
           </>

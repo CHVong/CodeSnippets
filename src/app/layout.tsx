@@ -16,9 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${space_grotesk.className} scrollbar min-h-screen flex flex-col overflow-scroll`}
-      >
+      <body className={`${space_grotesk.className} scrollbar min-h-screen flex flex-col`}>
         <ProvidersWrapper>
           <Navbar />
           {children}
