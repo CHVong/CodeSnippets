@@ -1,6 +1,7 @@
 "use client";
 import { type } from "os";
 import { FormEventHandler, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import dynamic from "next/dynamic";
 const CodeFormatTest = dynamic(() => import("../components/CodeFormatTest"), {
@@ -12,6 +13,10 @@ import BrowserEditor from "./BrowserEditor";
 
 export default function NewSnippetForm() {
   const [test, setTest] = useState<boolean>(false);
+  const { data: session, status } = useSession();
+
+  console.log(session?.token?.sub);
+  console.log(status);
 
   const submitCode: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -23,7 +28,7 @@ export default function NewSnippetForm() {
   };
 
   return (
-    <form className="w-4/5 md:w-1/2 lg:w-1/3" onSubmit={submitCode}>
+    <form className="w-4/5 md:w-3/4/2 lg:w-1/2" onSubmit={submitCode}>
       <div className="form-control w-full font-bold">
         <label className="cursor-pointer label justify-start gap-4">
           <span className="label-text ">Public</span>
@@ -38,6 +43,7 @@ export default function NewSnippetForm() {
           placeholder="Title ..."
           className="input input-bordered w-full"
           name="title"
+          required
         />
         <label className="label" htmlFor="description">
           <span className="label-text ">Snippet Description</span>
@@ -47,6 +53,7 @@ export default function NewSnippetForm() {
           className="textarea textarea-bordered"
           placeholder="Description ..."
           name="description"
+          required
         ></textarea>
 
         <label className="label" htmlFor="codesnippet">
@@ -59,6 +66,7 @@ export default function NewSnippetForm() {
             "Porto", "Meteora", ]`}
         language={"js"}
       /> */}
+
       <div className="w-full text-center my-4">
         <button className="btn btn-neutral">Save</button>
       </div>

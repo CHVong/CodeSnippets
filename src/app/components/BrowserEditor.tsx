@@ -14,10 +14,12 @@ export default function BrowserEditor() {
   );
   return (
     <div className="">
-      <select className="select select-info w-max max-w-xs mb-4" name="language">
-        <option disabled selected>
-          Select language
-        </option>
+      <select
+        className="select-sm select-info w-max max-w-xs mb-4 rounded-lg"
+        name="language"
+        required
+      >
+        <option value="">Select language</option>
         <option>HTML</option>
         <option>CSS</option>
         <option>Javascript</option>
@@ -27,6 +29,7 @@ export default function BrowserEditor() {
         <option>C</option>
         <option>C++</option>
         <option>C#</option>
+        <option>Other</option>
       </select>
       <Editor
         value={code}
@@ -42,6 +45,7 @@ export default function BrowserEditor() {
         }}
         className="bg-blue-100 border-2 border-black rounded-md"
         name="snippet"
+        required
       />
     </div>
   );

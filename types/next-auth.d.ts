@@ -9,6 +9,8 @@ declare module "next-auth" {
       image: string | undefined;
       /** The user's postal address. */
       address: string;
+      id: string | undefined;
     };
+    token: JWT;
   }
 }

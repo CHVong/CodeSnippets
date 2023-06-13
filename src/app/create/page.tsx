@@ -15,6 +15,8 @@ export default async function Create() {
     redirect("/signin");
   }
 
+  console.log(session); // works check terminal
+
   return (
     <main className="flex flex-col items-center justify-center">
       <PageTitle title={"Create New Snippet"} />
