@@ -1,35 +1,25 @@
-"use client";
-
 import PageTitle from "../components/PageTitle";
-import { signIn } from "next-auth/react";
+import SignInProviders from "../components/SignInProviders";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Code Snippets | Sign In",
 };
 
-export default function SignIn() {
-  async function handleGoogleSignIn() {
-    signIn("google", { callbackUrl: "http://localhost:3000" });
+export default async function SignIn() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect("/");
   }
-  async function handleGithubSignIn() {
-    signIn("github", { callbackUrl: "http://localhost:3000" });
-  }
-  async function handleDiscordSignIn() {
-    signIn("discord", { callbackUrl: "http://localhost:3000" });
-  }
+
+  console.log(session);
 
   return (
     <main className="flex flex-col items-center justify-center">
       <PageTitle title={"Sign In"} />
-      <button type="button" onClick={handleGoogleSignIn}>
-        sign in with Google
-      </button>
-      <button type="button" onClick={handleGithubSignIn}>
-        sign in with Github
-      </button>
-      <button type="button" onClick={handleDiscordSignIn}>
-        sign in with Discord
-      </button>
+      <SignInProviders />
     </main>
   );
 }

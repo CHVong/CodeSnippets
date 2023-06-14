@@ -143,15 +143,18 @@ export default function Navbar() {
               ref={menuRef}
             >
               <div className="flex flex-col items-center justify-center relative w-max m-auto gap-2 md:gap-4">
-                <Link href="/profile">
-                  <div className="avatar cursor-pointer w-10" onClick={() => redirect("/profile")}>
-                    <div className="w-24 rounded-full ring hover:ring-blue-600 ring-offset-base-100 ring-offset-2 transition duration-300">
-                      <img src={session?.user?.image} alt="user image" />
-                    </div>
-                  </div>
-                </Link>
                 {session ? (
                   <>
+                    <Link href="/profile">
+                      <div
+                        className="avatar cursor-pointer w-10"
+                        onClick={() => redirect("/profile")}
+                      >
+                        <div className="w-24 rounded-full ring hover:ring-blue-600 ring-offset-base-100 ring-offset-2 transition duration-300">
+                          <img src={session?.user?.image} alt="user image" />
+                        </div>
+                      </div>
+                    </Link>
                     {privateNavLinks.map((link) => {
                       const isActive = pathname.startsWith(link.href);
                       return (
