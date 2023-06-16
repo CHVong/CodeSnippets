@@ -20,6 +20,7 @@ export default function NewSnippetForm() {
 
   const submitCode: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData);
