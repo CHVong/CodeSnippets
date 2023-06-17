@@ -14,18 +14,45 @@ import BrowserEditor from "./BrowserEditor";
 export default function NewSnippetForm() {
   const [test, setTest] = useState<boolean>(false);
   const { data: session, status } = useSession();
+  const [isPublic, setIsPublic] = useState(false);
 
   console.log(session?.token?.sub);
   console.log(status);
 
-  const submitCode: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsPublic(event.target.checked);
+  };
+
+  const submitCode: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData);
+    payload.userId = session?.token?.sub || null;
+    payload.isPublic = isPublic.toString();
 
     console.log(payload);
+
+    try {
+      const response = await fetch("/api/snippets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        // Handle success case
+        console.log("Snippet created successfully!");
+      } else {
+        // Handle error case
+        console.error("Error creating snippet:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error creating snippet:", error);
+    }
   };
 
   return (
@@ -33,7 +60,12 @@ export default function NewSnippetForm() {
       <div className="form-control w-full font-bold">
         <label className="cursor-pointer label justify-start gap-4">
           <span className="label-text ">Public</span>
-          <input type="checkbox" className="checkbox checkbox-primary checkbox-sm" name="public" />
+          <input
+            type="checkbox"
+            className="checkbox checkbox-primary checkbox-sm"
+            checked={isPublic}
+            onChange={handleCheckboxChange}
+          />
         </label>
         <label className="label" htmlFor="title">
           <span className="label-text ">Snippet Title</span>
