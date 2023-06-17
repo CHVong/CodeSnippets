@@ -29,7 +29,7 @@ export default function NewSnippetForm() {
     const form = event.target as HTMLFormElement;
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData);
-    payload.userId = session?.token?.sub || null;
+    payload.posterId = session?.token?.sub || null;
     payload.isPublic = isPublic.toString();
 
     console.log(payload);

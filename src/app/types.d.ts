@@ -4,5 +4,5 @@ type Snippet = {
   description: string;
   language: string;
   snippet: string;
-  userId: string;
+  posterId: string;
 };

@@ -44,6 +44,8 @@ model User {
   accounts      Account[]
   codeSnippets  CodeSnippet[]
   sessions      Session[]
+  comments      SnippetComment[]
+  replies       CommentReplies[]
 }
 
 model VerificationToken {
@@ -56,13 +58,36 @@ model VerificationToken {
 
 model CodeSnippet {
   id          String   @id @default(cuid())
-  isPublic      Boolean
+  isPublic    Boolean
   title       String 
   description String
   language    String
   snippet     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  userId      String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  posterId    String
+  favorites   Int      @default(0)
+  user        User     @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  comments    SnippetComment[]
+}
+
+model SnippetComment {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  commenterId String
+  user        User     @relation(fields: [commenterId], references: [id], onDelete: Cascade)
+  codeSnippetId String
+  codeSnippet CodeSnippet       @relation(fields: [codeSnippetId], references: [id], onDelete: Cascade)
+  replies     CommentReplies[]
+}
+
+model CommentReplies{
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  replierId   String
+  user        User     @relation(fields: [replierId], references: [id], onDelete: Cascade)
+  commentId   String
+  comment     SnippetComment     @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
