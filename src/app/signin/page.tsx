@@ -14,7 +14,7 @@ export default async function SignIn() {
     redirect("/");
   }
 
-  console.log(session);
+  // console.log(session);
 
   return (
     <main className="flex flex-col items-center justify-center">

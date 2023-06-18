@@ -17,7 +17,8 @@ export default function Navbar() {
   const { data: session } = useSession();
   async function myFunction() {
     const session = await getSession();
-    /* ... */ console.log(session);
+    /* ... */
+    // console.log(session);
   }
   myFunction();
   const bracketsEffect =
@@ -39,7 +40,7 @@ export default function Navbar() {
   const privateNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
-    { name: "Protect", href: "/protect" },
+    { name: "Snippets", href: "/snippets" },
     { name: "Create", href: "/create" },
   ];
 

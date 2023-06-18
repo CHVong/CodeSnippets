@@ -15,7 +15,8 @@ export default async function Create() {
     redirect("/signin");
   }
 
-  console.log(session); // works check vscode terminal
+  // console.log(session);
+  // works check vscode terminal
 
   return (
     <main className="flex flex-col items-center justify-center">

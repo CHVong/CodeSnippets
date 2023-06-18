@@ -4,6 +4,7 @@ import React from "react";
 import Editor from "react-simple-code-editor";
 import Prism from "prismjs";
 import { highlight, languages } from "prismjs";
+import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-markup-templating";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-clike";
@@ -29,8 +30,9 @@ export default function BrowserEditor() {
         name="language"
         required
         onChange={(event) => setCodeLanguage(event.target.value)}
+        defaultValue={""}
       >
-        <option value="" disabled selected>
+        <option value="" disabled>
           Select language
         </option>
         <option value="html">HTML</option>

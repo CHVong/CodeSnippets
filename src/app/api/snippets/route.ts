@@ -36,11 +36,3 @@ export async function POST(request: Request) {
 //     return new Response(JSON.stringify(error), { status: 500 });
 //   }
 // }
-export async function GET(request: Request) {
-  try {
-    const data = await prisma.codeSnippet.findMany();
-    return new Response(JSON.stringify(data), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify(error), { status: 500 });
-  }
-}
