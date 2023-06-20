@@ -56,7 +56,7 @@ export default function NewSnippetForm() {
   };
 
   return (
-    <form className="w-4/5 md:w-3/4/2 lg:w-1/2" onSubmit={submitCode}>
+    <form className="w-4/5 md:w-3/4/2 lg:w-1/2 animate-fadeIn" onSubmit={submitCode}>
       <div className="form-control w-full font-bold">
         <label className="cursor-pointer label justify-start gap-4">
           <span className="label-text ">Public</span>

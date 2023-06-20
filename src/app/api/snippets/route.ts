@@ -28,6 +28,19 @@ export async function POST(request: Request) {
   }
 }
 
+export async function DELETE(request: Request) {
+  const { snippetId } = await request.json();
+  console.log(snippetId);
+  try {
+    const data = await prisma.codeSnippet.delete({
+      where: { id: String(snippetId) },
+    });
+    console.log(data);
+    return new Response(JSON.stringify(`${data} has been deleted`), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify(error), { status: 500 });
+  }
+}
 // export async function GET(request: Request) {
 //   try {
 //     const data = await prisma.user.findMany();
