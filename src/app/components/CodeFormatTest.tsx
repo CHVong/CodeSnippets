@@ -14,7 +14,6 @@ import "prismjs/components/prism-php";
 import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
 import "prismjs/components/prism-csharp";
-import "prismjs/themes/prism.css";
 
 type Props = {
   code: string;
@@ -26,10 +25,8 @@ export default function Code({ code, language }: Props) {
     Prism.highlightAll();
   }, []);
   return (
-    <div className="Code">
-      <pre className="bg-red-500">
-        <code className={`language-${language}`}>{code}</code>
-      </pre>
-    </div>
+    <pre className="w-96 h-60 scrollbar">
+      <code className={`language-${language}`}>{code}</code>
+    </pre>
   );
 }

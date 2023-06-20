@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../prisma/client";
+import { prisma } from "../../../../prisma/client";
 
 export async function POST(request: Request) {
   try {
     const { isPublic, title, description, language, snippet, posterId }: Snippet =
       await request.json();
-    const myBoolean = JSON.parse(new Boolean(isPublic).toString());
+    const myBoolean = JSON.parse(isPublic.toString());
 
     console.log(isPublic, typeof isPublic, myBoolean, typeof myBoolean);
 

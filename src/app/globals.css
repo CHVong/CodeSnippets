@@ -24,7 +24,7 @@ body {
 
 .scrollbar::-webkit-scrollbar {
   width: 6px;
-  height: 100%;
+  height: 6px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
@@ -43,4 +43,9 @@ body {
 
 .scrollbar {
   scrollbar-width: thin;
+}
+
+pre[class*="language-"] {
+  margin: 0;
+  padding-top: 2.5rem;
 }
