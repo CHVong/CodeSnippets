@@ -50,7 +50,14 @@ export async function PATCH(request: Request) {
       where: { id: String(snippetId) },
       data: { isPublic: !isPublic },
     });
-    return new Response(JSON.stringify(` has been updated`), { status: 200 });
+
+    const message = `${data} has been updated successfully.`; // Customize the message
+
+    const responseData = {
+      message: message,
+      data: data,
+    };
+    return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });
   }

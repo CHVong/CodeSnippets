@@ -1,3 +1,4 @@
+import "prismjs/themes/prism-tomorrow.css";
 import "./globals.css";
 import { Space_Grotesk } from "next/font/google";
 import ProvidersWrapper from "./components/ProvidersWrapper";

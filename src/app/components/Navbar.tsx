@@ -102,7 +102,12 @@ export default function Navbar() {
           <Link href="/profile">
             <div className="avatar cursor-pointer w-10" onClick={() => redirect("/profile")}>
               <div className="w-24 rounded-full ring hover:ring-blue-600 ring-offset-base-100 ring-offset-2 transition duration-300">
-                <img src={session?.user?.image} alt="user image" />
+                <Image
+                  src={session?.user?.image as string}
+                  alt="user image"
+                  width={96}
+                  height={96}
+                />
               </div>
             </div>
           </Link>
@@ -152,7 +157,12 @@ export default function Navbar() {
                         onClick={() => redirect("/profile")}
                       >
                         <div className="w-24 rounded-full ring hover:ring-blue-600 ring-offset-base-100 ring-offset-2 transition duration-300">
-                          <img src={session?.user?.image} alt="user image" />
+                          <Image
+                            src={session?.user?.image as string}
+                            alt="user image"
+                            width={96}
+                            height={96}
+                          />
                         </div>
                       </div>
                     </Link>

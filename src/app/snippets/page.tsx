@@ -64,7 +64,17 @@ export default function Snippets() {
 
       if (response.ok) {
         // Handle success case
-        getAllSnippets();
+        const updatedData = await response.json();
+        setSnippets((prevData) => {
+          const newData: any = [...prevData];
+          const index: number = newData.findIndex(
+            (snippet: Snippet) => (snippet.id as string) === updatedData.data.id
+          );
+          newData[index] = updatedData.data;
+          return newData;
+        });
+        console.log(updatedData.data.isPublic);
+        // getAllSnippets();
         console.log("Public updated successfully!");
       } else {
         // Handle error case

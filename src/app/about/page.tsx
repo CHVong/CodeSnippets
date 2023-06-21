@@ -13,15 +13,15 @@ export default function About() {
         <h2 className="font-bold underline">Welcome to Code Snippets!</h2>
         <p className="indent-8">
           A corner of the internet designed for developers like you, seeking a helping hand in
-          storing and retrieving your cherished snippets of code. We're here to make your coding
-          journey smoother and more efficient. With Code Snippets, you can build your own personal
-          treasure trove of reusable code, effortlessly incorporating tried and tested solutions
-          into your projects. Say goodbye to time-consuming searches and hello to seamless
+          storing and retrieving your cherished snippets of code. We&apos;re here to make your
+          coding journey smoother and more efficient. With Code Snippets, you can build your own
+          personal treasure trove of reusable code, effortlessly incorporating tried and tested
+          solutions into your projects. Say goodbye to time-consuming searches and hello to seamless
           integration. Join our dynamic community of developers and discover the joy of coding with
           Code Snippets.
         </p>
         <br />
-        <h2 className="font-bold underline">Here's how it works:</h2>
+        <h2 className="font-bold underline">Here&apos;s how it works:</h2>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, quisquam. Lorem ipsum dolor
           sit amet consectetur adipisicing elit. Suscipit enim facilis autem, ullam nihil, sit

@@ -4,7 +4,6 @@ import React from "react";
 import Editor from "react-simple-code-editor";
 import Prism from "prismjs";
 import { highlight, languages } from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-markup-templating";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-clike";
@@ -15,7 +14,6 @@ import "prismjs/components/prism-php";
 import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
 import "prismjs/components/prism-csharp";
-import "prismjs/themes/prism.css"; //Example style, you can use another
 
 export default function BrowserEditor() {
   const [code, setCode] = React.useState(
