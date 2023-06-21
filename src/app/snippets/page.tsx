@@ -31,7 +31,6 @@ export default function Snippets() {
     }
   }
   async function deleteSnippet(snippetId: string) {
-    console.log(snippetId);
     try {
       const response = await fetch("/api/snippets", {
         method: "DELETE",
@@ -53,16 +52,45 @@ export default function Snippets() {
       console.error("Error deleting snippet:", error);
     }
   }
+  async function updatePublic(snippetId: string, isPublic: boolean) {
+    try {
+      const response = await fetch("/api/snippets", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
+      });
+
+      if (response.ok) {
+        // Handle success case
+        getAllSnippets();
+        console.log("Public updated successfully!");
+      } else {
+        // Handle error case
+        console.error("Error updating public snippet:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating public snippet:", error);
+    }
+  }
 
   return (
     <div className="columns-3 h-full p-4 m-auto">
       {snippets.length ? (
         snippets.map((snippet: Snippet, i: number) => {
-          return <SnippetCards key={snippet.id} snippet={snippet} deleteFunction={deleteSnippet} />;
+          return (
+            <SnippetCards
+              key={snippet.id}
+              snippet={snippet}
+              deleteFunction={deleteSnippet}
+              updatePublicFunction={updatePublic}
+            />
+          );
         })
       ) : (
         <div /* className="flex h-[50vw] w-screen justify-center items-center grow p-20" */>
-          <span className="loading loading-bars loading-lg bg-blue-800 dark:bg-blue-500"></span>
+          <span className="loading loading-bars loading-lg bg-primary"></span>
         </div>
       )}
     </div>

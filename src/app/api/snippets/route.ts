@@ -41,6 +41,20 @@ export async function DELETE(request: Request) {
     return new Response(JSON.stringify(error), { status: 500 });
   }
 }
+export async function PATCH(request: Request) {
+  const { snippetId, isPublic } = await request.json();
+  console.log(snippetId, isPublic, !isPublic);
+
+  try {
+    const data = await prisma.codeSnippet.update({
+      where: { id: String(snippetId) },
+      data: { isPublic: !isPublic },
+    });
+    return new Response(JSON.stringify(` has been updated`), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify(error), { status: 500 });
+  }
+}
 // export async function GET(request: Request) {
 //   try {
 //     const data = await prisma.user.findMany();

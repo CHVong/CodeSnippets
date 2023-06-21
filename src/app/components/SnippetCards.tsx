@@ -7,9 +7,11 @@ import CodeFormatTest from "./CodeFormatTest";
 export default function SnippetCards({
   snippet,
   deleteFunction,
+  updatePublicFunction,
 }: {
   snippet: Snippet;
   deleteFunction: Function;
+  updatePublicFunction: Function;
 }) {
   const languageFullName: { [key: string]: string } = {
     markup: "Other",
@@ -95,19 +97,29 @@ export default function SnippetCards({
           <p className="">{snippet.description}</p>
           <div className="card-actions justify-between">
             <div className="">
-              <button className="btn btn-outline btn-warning btn-xs">
-                <FaComment className="hover:outline-red-500" />
+              <button className="btn btn-outline btn-neutral btn-xs">
+                <FaComment className="" />
               </button>
             </div>
             <div className="flex gap-2">
               {snippet.isPublic ? (
-                <div className="badge badge-outline bg-green-300 dark:bg-green-700">Public</div>
+                <button
+                  className="btn btn-xs btn-outline btn-primary cursor-pointer"
+                  onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
+                >
+                  Public
+                </button>
               ) : (
-                <div className="badge badge-outline bg-red-300 dark:bg-orange-700">Private</div>
+                <button
+                  className="btn btn-xs btn-outline btn-error cursor-pointer"
+                  onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
+                >
+                  Private
+                </button>
               )}
-              <div className="badge badge-outline bg-gray-800">
+              <button className="btn btn-xs btn-outline cursor-pointer">
                 {languageFullName[snippet.language as string]}
-              </div>
+              </button>
             </div>
           </div>
         </div>
