@@ -1,11 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import SnippetCards from "../components/SnippetCards";
 
 export default function Snippets() {
-  const [snippets, setSnippets] = useState([]);
+  const [snippets, setSnippets] = useState<null | Snippet[]>([]);
+
+  const { data: session, status } = useSession();
+
+  if (!session) {
+    redirect("/signin");
+  }
+  console.log(session.token.sub);
 
   useEffect(() => {
     getAllSnippets();
@@ -13,21 +21,27 @@ export default function Snippets() {
 
   async function getAllSnippets() {
     try {
-      const response = await fetch("http://localhost:3000/api/getallsnippets", {
+      const sessionId = await session?.token.sub;
+      const response = await fetch(`http://localhost:3000/api/getallsnippets/${sessionId}`, {
         cache: "no-store",
       });
-      const snippets = await response.json();
+
       // console.log(snippets);
 
       if (response.ok) {
         console.log("Snippet loaded successfully!");
         // console.log(snippets);
+        const snippets = await response.json();
         setSnippets(snippets);
       } else {
         console.error("Error getting snippets:", response.status, response.statusText);
+        setSnippets(null);
+        console.log("hi");
       }
     } catch (error) {
       console.error("Error getting snippet:", error);
+      setSnippets(null);
+      console.log("hello");
     }
   }
   async function deleteSnippet(snippetId: string) {
@@ -65,7 +79,7 @@ export default function Snippets() {
       if (response.ok) {
         // Handle success case
         const updatedData = await response.json();
-        setSnippets((prevData) => {
+        setSnippets((prevData: any) => {
           const newData: any = [...prevData];
           const index: number = newData.findIndex(
             (snippet: Snippet) => (snippet.id as string) === updatedData.data.id
@@ -87,7 +101,11 @@ export default function Snippets() {
 
   return (
     <div className="columns-3 h-full p-4 m-auto">
-      {snippets.length ? (
+      {snippets?.length === 0 ? (
+        <div /* className="flex h-[50vw] w-screen justify-center items-center grow p-20" */>
+          <span className="loading loading-bars loading-lg bg-primary"></span>
+        </div>
+      ) : snippets?.length ? (
         snippets.map((snippet: Snippet, i: number) => {
           return (
             <SnippetCards
@@ -99,9 +117,7 @@ export default function Snippets() {
           );
         })
       ) : (
-        <div /* className="flex h-[50vw] w-screen justify-center items-center grow p-20" */>
-          <span className="loading loading-bars loading-lg bg-primary"></span>
-        </div>
+        <div>Hiasdasfa</div>
       )}
     </div>
   );
