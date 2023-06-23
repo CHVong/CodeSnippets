@@ -8,7 +8,7 @@ type session = {
 
 export async function GET(request: Request, params: { params: session }) {
   const id = params.params.id;
-  console.log(id);
+  //   console.log(id);
 
   try {
     if (!id) {
@@ -20,6 +20,9 @@ export async function GET(request: Request, params: { params: session }) {
     const snippets = await prisma.codeSnippet.findMany({
       where: {
         posterId: id,
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
 

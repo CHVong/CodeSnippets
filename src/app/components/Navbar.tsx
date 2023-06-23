@@ -35,12 +35,14 @@ export default function Navbar() {
     { name: "Explore", href: "/explore" },
     { name: "Profile", href: "/profile" },
     { name: "Protect", href: "/protect" },
+    { name: "My Snippets", href: "/mysnippets" },
     { name: "Sign In", href: "/signin" },
   ];
   const privateNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
     { name: "Snippets", href: "/snippets" },
+    { name: "My Snippets", href: "/mysnippets" },
     { name: "Create", href: "/create" },
   ];
 

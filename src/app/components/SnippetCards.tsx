@@ -101,21 +101,37 @@ export default function SnippetCards({
                 <FaComment className="" />
               </button>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2  ">
               {snippet.isPublic ? (
-                <button
-                  className="btn btn-xs btn-outline btn-primary cursor-pointer"
+                <div
+                  className="swap swap-flip"
                   onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
                 >
-                  Public
-                </button>
+                  <button className="btn btn-xs btn-outline btn-primary cursor-pointer swap-off">
+                    Public
+                  </button>
+                  <button
+                    className="btn btn-xs btn-outline btn-error cursor-pointer swap-on"
+                    // onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
+                  >
+                    Private
+                  </button>
+                </div>
               ) : (
-                <button
-                  className="btn btn-xs btn-outline btn-error cursor-pointer"
+                <div
+                  className="swap swap-flip"
                   onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
                 >
-                  Private
-                </button>
+                  <button className="btn btn-xs btn-outline btn-primary cursor-pointer swap-on">
+                    Public
+                  </button>
+                  <button
+                    className="btn btn-xs btn-outline btn-error cursor-pointer swap-off"
+                    // onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
+                  >
+                    Private
+                  </button>
+                </div>
               )}
               <button className="btn btn-xs btn-outline cursor-pointer">
                 {languageFullName[snippet.language as string]}

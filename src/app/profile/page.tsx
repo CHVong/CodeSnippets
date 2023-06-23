@@ -16,9 +16,10 @@ export default async function Profile() {
       console.log(response);
     }
     const data = await response.json();
+    // console.log(data);
     return data;
   }
-
+  getUsers();
   const data = await getUsers();
   const session = await getServerSession(authOptions);
   // console.log(session);

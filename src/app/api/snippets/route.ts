@@ -36,7 +36,14 @@ export async function DELETE(request: Request) {
       where: { id: String(snippetId) },
     });
     console.log(data);
-    return new Response(JSON.stringify(`${data} has been deleted`), { status: 200 });
+
+    const message = `${data} has been updated successfully.`;
+    const responseData = {
+      message: message,
+      data: data,
+    };
+
+    return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });
   }
@@ -62,11 +69,11 @@ export async function PATCH(request: Request) {
     return new Response(JSON.stringify(error), { status: 500 });
   }
 }
-// export async function GET(request: Request) {
-//   try {
-//     const data = await prisma.user.findMany();
-//     return new Response(JSON.stringify(data), { status: 200 });
-//   } catch (error) {
-//     return new Response(JSON.stringify(error), { status: 500 });
-//   }
-// }
+export async function GET(request: Request) {
+  try {
+    const data = await prisma.user.findMany();
+    return new Response(JSON.stringify(data), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify(error), { status: 500 });
+  }
+}

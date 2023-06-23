@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import SnippetCards from "./SnippetCards";
 import { redirect } from "next/navigation";
-import SnippetCards from "../components/SnippetCards";
 
-export default function Snippets() {
+export default function MySnippetsComponent() {
   const [snippets, setSnippets] = useState<null | Snippet[]>([]);
-
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -24,20 +23,12 @@ export default function Snippets() {
       const response = await fetch(`http://localhost:3000/api/getallsnippets/${sessionId}`, {
         cache: "no-store",
       });
-
-      // console.log(snippets);
-
       if (response.ok) {
-        console.log("Snippet loaded successfully!");
-        // console.log(snippets);
         const snippets = await response.json();
         setSnippets(snippets);
-      } else {
-        console.error("Error getting snippets:", response.status, response.statusText);
-        setSnippets(null);
       }
     } catch (error) {
-      console.error("Error getting snippet:", error);
+      console.error("Error getting all snippets:", error);
       setSnippets(null);
     }
   }
@@ -52,12 +43,15 @@ export default function Snippets() {
       });
 
       if (response.ok) {
-        // Handle success case
-        getAllSnippets();
-        console.log("Snippet created successfully!");
-      } else {
-        // Handle error case
-        console.error("Error deleting snippet:", response.status, response.statusText);
+        const updatedData = await response.json();
+        console.log(updatedData);
+        setSnippets((prevData: Snippet[] | null) => {
+          if (prevData) {
+            return prevData.filter((snippet) => snippet.id !== snippetId);
+          }
+          return prevData;
+        });
+        console.log("Snippet successfully deleted!");
       }
     } catch (error) {
       console.error("Error deleting snippet:", error);
@@ -72,9 +66,7 @@ export default function Snippets() {
         },
         body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
       });
-
       if (response.ok) {
-        // Handle success case
         const updatedData = await response.json();
         setSnippets((prevData: any) => {
           const newData: any = [...prevData];
@@ -84,12 +76,7 @@ export default function Snippets() {
           newData[index] = updatedData.data;
           return newData;
         });
-        console.log(updatedData.data.isPublic);
-        // getAllSnippets();
         console.log("Public updated successfully!");
-      } else {
-        // Handle error case
-        console.error("Error updating public snippet:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("Error updating public snippet:", error);
@@ -107,12 +94,14 @@ export default function Snippets() {
       ) : snippets?.length ? (
         snippets.map((snippet: Snippet, i: number) => {
           return (
-            <SnippetCards
-              key={snippet.id}
-              snippet={snippet}
-              deleteFunction={deleteSnippet}
-              updatePublicFunction={updatePublic}
-            />
+            <div className="transition-all">
+              <SnippetCards
+                key={snippet.id}
+                snippet={snippet}
+                deleteFunction={deleteSnippet}
+                updatePublicFunction={updatePublic}
+              />
+            </div>
           );
         })
       ) : (
@@ -125,32 +114,3 @@ export default function Snippets() {
     </div>
   );
 }
-
-// SSR
-
-// import { getAllSnippets } from "../lib/getAllSnippets";
-
-// export default async function Snippets() {
-//   const snippets = await getAllSnippets();
-
-//   return (
-//     <div>
-//       {snippets.length !== 0
-//         ? snippets.map((snippet: Snippet, i: number) => {
-//             return (
-//               <section key={snippet.id}>
-//                 <h2>{snippet.title}</h2>
-//                 <p>{snippet.description}</p>
-//                 <aside>{snippet.language}</aside>
-//                 <p>{snippet.snippet}</p>
-//                 <aside>{snippet.favorites}</aside>
-//                 <h3>{snippet.posterId}</h3>
-//                 <aside>{snippet.createdAt}</aside>
-//                 <aside>{snippet.isPublic}</aside>
-//               </section>
-//             );
-//           })
-//         : "LOADING"}
-//     </div>
-//   );
-// }
