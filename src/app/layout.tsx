@@ -2,6 +2,7 @@ import "prismjs/themes/prism-tomorrow.css";
 import "./globals.css";
 import { Space_Grotesk } from "next/font/google";
 import ProvidersWrapper from "./components/ProvidersWrapper";
+import { ReactQueryProviderWrapper } from "./components/ReactQueryProviderWrapper";
 
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });
 import Navbar from "./components/Navbar";
@@ -18,10 +19,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${space_grotesk.className} scrollbar min-h-screen flex flex-col`}>
-        <ProvidersWrapper>
-          <Navbar />
-          {children}
-        </ProvidersWrapper>
+        <ReactQueryProviderWrapper>
+          <ProvidersWrapper>
+            <Navbar />
+            {children}
+          </ProvidersWrapper>
+        </ReactQueryProviderWrapper>
       </body>
     </html>
   );
