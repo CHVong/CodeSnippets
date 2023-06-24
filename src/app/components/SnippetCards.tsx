@@ -3,15 +3,16 @@
 import { FaHeart, FaComment, FaTrash, FaCopy, FaCheck, FaUndo } from "react-icons/fa";
 import { useState } from "react";
 import CodeFormatTest from "./CodeFormatTest";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function SnippetCards({
   snippet,
-  deleteFunction,
   updatePublicFunction,
+  sessionId,
 }: {
   snippet: Snippet;
-  deleteFunction: Function;
   updatePublicFunction: Function;
+  sessionId: string;
 }) {
   const languageFullName: { [key: string]: string } = {
     markup: "Other",
@@ -31,6 +32,28 @@ export default function SnippetCards({
 
   async function copyCode(code: string) {
     await navigator.clipboard.writeText(code);
+  }
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteSnippet,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["snippets"] });
+    },
+  });
+
+  async function deleteSnippet(snippetId: string) {
+    const response = await fetch(`/api/snippets`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ snippetId: snippetId.toString() }),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
   }
 
   return (
@@ -55,7 +78,43 @@ export default function SnippetCards({
             <button className="btn btn-outline btn-primary btn-xs">
               <FaHeart />
             </button>
-            {showLoading ? (
+            {showConfirmDelete ? (
+              <>
+                {deleteMutation.isLoading || deleteMutation.isSuccess ? (
+                  <span className="loading loading-spinner text-primary"></span>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-outline btn-success btn-xs"
+                      onClick={(prev) => {
+                        setShowLoading(true);
+                        deleteMutation.mutate(snippet.id);
+                      }}
+                    >
+                      <FaCheck />
+                    </button>
+                    <button
+                      className="btn btn-outline btn-error btn-xs"
+                      onClick={() => {
+                        setShowConfirmDelete(!showConfirmDelete);
+                      }}
+                    >
+                      <FaUndo />
+                    </button>
+                  </>
+                )}
+              </>
+            ) : (
+              <button
+                className="btn btn-outline btn-error btn-xs"
+                onClick={() => {
+                  setShowConfirmDelete(!showConfirmDelete);
+                }}
+              >
+                <FaTrash />
+              </button>
+            )}
+            {/* {showLoading ? (
               <span className="loading loading-spinner text-primary"></span>
             ) : (
               <div className="flex gap-1">
@@ -65,7 +124,8 @@ export default function SnippetCards({
                       className="btn btn-outline btn-success btn-xs"
                       onClick={(prev) => {
                         setShowLoading(true);
-                        deleteFunction(snippet.id);
+                        // deleteFunction(snippet.id);
+                        deleteMutation.mutate(snippet.id);
                       }}
                     >
                       <FaCheck />
@@ -90,7 +150,7 @@ export default function SnippetCards({
                   </button>
                 )}
               </div>
-            )}
+            )} */}
           </div>
 
           <h2 className="card-title">{snippet.title}</h2>

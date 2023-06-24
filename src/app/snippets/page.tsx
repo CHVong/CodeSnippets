@@ -110,7 +110,8 @@ export default function Snippets() {
             <SnippetCards
               key={snippet.id}
               snippet={snippet}
-              deleteFunction={deleteSnippet}
+              sessionId={session?.token.sub}
+              // deleteFunction={deleteSnippet}
               updatePublicFunction={updatePublic}
             />
           );

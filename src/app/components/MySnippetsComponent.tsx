@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import SnippetCards from "./SnippetCards";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export default function MySnippetsComponent() {
   const [snippets, setSnippets] = useState<null | Snippet[]>([]);
@@ -20,7 +20,7 @@ export default function MySnippetsComponent() {
     return <span className="loading loading-bars loading-lg bg-primary"></span>;
   }
 
-  if (isError) {
+  if (error instanceof Error) {
     return <span>Error: {error.message}</span>;
   }
 
@@ -36,31 +36,6 @@ export default function MySnippetsComponent() {
     return response.json();
   }
 
-  async function deleteSnippet(snippetId: string) {
-    try {
-      const response = await fetch("/api/snippets", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ snippetId: snippetId.toString() }),
-      });
-
-      if (response.ok) {
-        const updatedData = await response.json();
-        console.log(updatedData);
-        setSnippets((prevData: Snippet[] | null) => {
-          if (prevData) {
-            return prevData.filter((snippet) => snippet.id !== snippetId);
-          }
-          return prevData;
-        });
-        console.log("Snippet successfully deleted!");
-      }
-    } catch (error) {
-      console.error("Error deleting snippet:", error);
-    }
-  }
   async function updatePublic(snippetId: string, isPublic: boolean) {
     try {
       const response = await fetch("/api/snippets", {
@@ -121,7 +96,7 @@ export default function MySnippetsComponent() {
               <SnippetCards
                 key={snippet.id}
                 snippet={snippet}
-                deleteFunction={deleteSnippet}
+                sessionId={sessionId}
                 updatePublicFunction={updatePublic}
               />
             );
