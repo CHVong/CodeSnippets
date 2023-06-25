@@ -15,9 +15,6 @@ const discordClientSecret = process.env?.DISCORD_CLIENT_SECRET || "";
 const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: "jwt",
-  },
   providers: [
     GoogleProvider({
       clientId: googleClientId,
@@ -49,5 +46,8 @@ export const authOptions: NextAuthOptions = {
       session.token = token;
       return session;
     },
+  },
+  session: {
+    strategy: "jwt",
   },
 };

@@ -24,7 +24,7 @@ export default async function Profile() {
   const session = await getServerSession(authOptions);
   // console.log(session);
   if (!session) {
-    redirect("/signin");
+    redirect("http://localhost:3000/signin"); // redirect internally throws error? Uncaught Error: NEXT_REDIRECT
   }
   return (
     <main className="flex flex-col items-center justify-center">

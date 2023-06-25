@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { signIn, signOut, useSession, getProviders, getSession } from "next-auth/react";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Loader from "./Loader";
 import { redirect } from "next/navigation";
@@ -15,12 +15,7 @@ export default function Navbar() {
   const isLoggedIn = true;
   const [showMenu, setShowMenu] = useState(false);
   const { data: session } = useSession();
-  async function myFunction() {
-    const session = await getSession();
-    /* ... */
-    // console.log(session);
-  }
-  myFunction();
+
   const bracketsEffect =
     "before:content-['['] after:content-[']'] before:absolute after:absolute hover:before:-left-4 hover:after:-right-4 hover:before:transition-all hover:after:transition-all before:opacity-0 after:opacity-0 before:-left-1 after:-right-1 hover:before:opacity-100 hover:after:opacity-100 hover:before:duration-500 hover:after:duration-500 relative ";
 

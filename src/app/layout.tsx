@@ -3,6 +3,7 @@ import "./globals.css";
 import { Space_Grotesk } from "next/font/google";
 import ProvidersWrapper from "./components/ProvidersWrapper";
 import { ReactQueryProviderWrapper } from "./components/ReactQueryProviderWrapper";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });
 import Navbar from "./components/Navbar";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Navbar />
             {children}
           </ProvidersWrapper>
+          <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProviderWrapper>
       </body>
     </html>

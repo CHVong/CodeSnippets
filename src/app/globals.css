@@ -46,8 +46,8 @@ body {
 }
 
 pre[class*="language-"] {
-  margin: 0;
-  padding-top: 2.5rem;
+  margin: 0 !important;
+  padding-top: 2.5rem !important;
 }
 
 .column-span {
