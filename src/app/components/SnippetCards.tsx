@@ -37,7 +37,6 @@ export default function SnippetCards({
   };
 
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
-  const [showLoading, setShowLoading] = useState<boolean>(false);
 
   async function copyCode(code: string) {
     await navigator.clipboard.writeText(code);
@@ -53,6 +52,18 @@ export default function SnippetCards({
 
   const updatePublicMutation = useMutation({
     mutationFn: updatePublic,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
+        const newData = [...oldData];
+        const index = newData.findIndex((snippet: any) => snippet.id === data.data.id);
+        newData[index] = data.data;
+        return newData;
+      });
+    },
+  });
+
+  const updateLanguageMutation = useMutation({
+    mutationFn: updateLanguage,
     onSuccess: (data) => {
       queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
         const newData = [...oldData];
@@ -84,6 +95,19 @@ export default function SnippetCards({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
+    });
+    if (!response.ok) {
+      throw new Error("Network Error: Failed to update snippet");
+    }
+    return response.json();
+  }
+  async function updateLanguage({ snippetId, language }: { snippetId: string; language: string }) {
+    const response = await fetch(`/api/snippets/updatelanguage`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ snippetId, language }),
     });
     if (!response.ok) {
       throw new Error("Network Error: Failed to update snippet");
@@ -126,7 +150,6 @@ export default function SnippetCards({
                       <button
                         className="btn btn-outline btn-success btn-xs"
                         onClick={(prev) => {
-                          setShowLoading(true);
                           deleteMutation.mutate(snippet.id);
                         }}
                       >
@@ -163,62 +186,35 @@ export default function SnippetCards({
           <h2 className="card-title">{snippet.title}</h2>
           <p className="">{snippet.description}</p>
 
-          <div className="card-actions justify-between items-end">
+          <div className="card-actions justify-between items-center">
             <div>
-              <button className="btn btn-xs btn-outline cursor-pointer">
-                {languageFullName[snippet.language as string]}
-              </button>
-            </div>
-            <div className="flex gap-2  ">
-              {/* {snippet.isPublic ? (
-                <div
-                  className="swap swap-flip"
-                  onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
-                >
-                  <button className="btn btn-xs btn-outline btn-primary cursor-pointer swap-off">
-                    Public
-                  </button>
-                  <button
-                    className="btn btn-xs btn-outline btn-error cursor-pointer swap-on"
-                    // onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
-                  >
-                    Private
-                  </button>
-                </div>
-              ) : (
-                <div
-                  className="swap swap-flip"
-                  onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
-                >
-                  <button className="btn btn-xs btn-outline btn-primary cursor-pointer swap-on">
-                    Public
-                  </button>
-                  <button
-                    className="btn btn-xs btn-outline btn-error cursor-pointer swap-off"
-                    // onClick={() => updatePublicFunction(snippet.id, snippet.isPublic)}
-                  >
-                    Private
-                  </button>
-                </div>
-              )} */}
-              {/* <div
-                className={`tooltip ${
-                  snippet.isPublic ? "tooltip-success" : "tooltip-neutral"
-                } tooltip-open tooltip-left flex`}
-                data-tip={`${snippet.isPublic ? "Public" : "Private"} `}
+              <select
+                className="select select-bordered select-xs w-full max-w-xs"
+                defaultValue={""}
+                onChange={(event) => {
+                  updateLanguageMutation.mutate({
+                    snippetId: snippet.id,
+                    language: event.target.value,
+                  });
+                }}
               >
-                <input
-                  type="checkbox"
-                  className="toggle toggle-success toggle-sm"
-                  defaultChecked={snippet.isPublic}
-                  onClick={() => {
-                    updatePublicMutation.mutate({
-                      snippetId: snippet.id,
-                      isPublic: snippet.isPublic,
-                    });
-                  }}
-                />
-              </div> */}
+                <option value="" disabled>
+                  {languageFullName[snippet.language as string]}
+                </option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="js">Javascript</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="php">PHP</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="csharp">C#</option>
+                <option value="markup">Other</option>
+              </select>
+            </div>
+
+            <div className="flex gap-2">
               <div
                 className={`tooltip tooltip-left flex gap-2 items-center`}
                 data-tip={`${snippet.isPublic ? "Public" : "Private"} `}

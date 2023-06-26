@@ -22,7 +22,7 @@ type Props = {
 export default function Code({ code, language }: Props) {
   useEffect(() => {
     Prism.highlightAll();
-  }, []);
+  }, [language]);
   return (
     <pre className="w-96 h-60 scrollbar">
       <code className={`language-${language}`}>{code}</code>
