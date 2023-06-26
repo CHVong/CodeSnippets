@@ -10,17 +10,17 @@ export const metadata = {
 };
 
 export default async function Profile() {
-  async function getUsers() {
-    const response = await fetch(`${process.env.BASE_URL}/api/snippets`);
-    if (!response.ok) {
-      console.log(response);
-    }
-    const data = await response.json();
-    // console.log(data);
-    return data;
-  }
-  getUsers();
-  const data = await getUsers();
+  // async function getUsers() {
+  //   const response = await fetch(`${process.env.BASE_URL}/api/snippets`);
+  //   if (!response.ok) {
+  //     console.log(response);
+  //   }
+  //   const data = await response.json();
+  //   // console.log(data);
+  //   return data;
+  // }
+  // getUsers();
+  // const data = await getUsers();
   const session = await getServerSession(authOptions);
   // console.log(session);
   if (!session) {
@@ -33,13 +33,13 @@ export default async function Profile() {
       <pre>{JSON.stringify(session)}</pre>
       <User />
       <div>
-        {data.map((e: any, i: any) => {
+        {/* {data.map((e: any, i: any) => {
           return (
             <div key={i}>
               <Image src={e.image} width={50} height={50} alt="profile pic" />
             </div>
           );
-        })}
+        })} */}
       </div>
     </main>
   );

@@ -112,7 +112,7 @@ export default function Snippets() {
               snippet={snippet}
               sessionId={session?.token.sub}
               // deleteFunction={deleteSnippet}
-              updatePublicFunction={updatePublic}
+              // updatePublicFunction={updatePublic}
             />
           );
         })

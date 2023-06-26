@@ -64,6 +64,7 @@ export async function PATCH(request: Request) {
       message: message,
       data: data,
     };
+    console.log(responseData);
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });

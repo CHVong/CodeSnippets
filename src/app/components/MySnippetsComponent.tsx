@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import SnippetCards from "./SnippetCards";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function MySnippetsComponent() {
   const [snippets, setSnippets] = useState<null | Snippet[]>([]);
@@ -15,6 +15,19 @@ export default function MySnippetsComponent() {
     queryFn: getAllSnippets,
     enabled: !!sessionId,
   });
+
+  // const queryClient = useQueryClient();
+  // const updatePublicMutation = useMutation({
+  //   mutationFn: updatePublic,
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
+  //       const newData = [...oldData];
+  //       const index = newData.findIndex((snippet: any) => snippet.id === data.data.id);
+  //       newData[index] = data.data;
+  //       return newData;
+  //     });
+  //   },
+  // });
 
   if (isLoading) {
     return <span className="loading loading-bars loading-lg bg-primary"></span>;
@@ -36,30 +49,43 @@ export default function MySnippetsComponent() {
     return response.json();
   }
 
-  async function updatePublic(snippetId: string, isPublic: boolean) {
-    try {
-      const response = await fetch("/api/snippets", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
-      });
-      if (response.ok) {
-        const updatedData = await response.json();
-        setSnippets((prevData: any) => {
-          const newData: any = [...prevData];
-          const index: number = newData.findIndex(
-            (snippet: Snippet) => (snippet.id as string) === updatedData.data.id
-          );
-          newData[index] = updatedData.data;
-          return newData;
-        });
-        console.log("Public updated successfully!");
-      }
-    } catch (error) {
-      console.error("Error updating public snippet:", error);
+  // async function updatePublic(snippetId: string, isPublic: boolean) {
+  //   try {
+  //     const response = await fetch("/api/snippets", {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
+  //     });
+  //     if (response.ok) {
+  //       const updatedData = await response.json();
+  //       setSnippets((prevData: any) => {
+  //         const newData: any = [...prevData];
+  //         const index: number = newData.findIndex(
+  //           (snippet: Snippet) => (snippet.id as string) === updatedData.data.id
+  //         );
+  //         newData[index] = updatedData.data;
+  //         return newData;
+  //       });
+  //       console.log("Public updated successfully!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating public snippet:", error);
+  //   }
+  // }
+  async function updatePublic({ snippetId, isPublic }: { snippetId: string; isPublic: boolean }) {
+    const response = await fetch(`/api/snippets`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
+    });
+    if (!response.ok) {
+      throw new Error("Network Error: Failed to update snippet");
     }
+    return response.json();
   }
 
   return (
@@ -97,7 +123,7 @@ export default function MySnippetsComponent() {
                 key={snippet.id}
                 snippet={snippet}
                 sessionId={sessionId}
-                updatePublicFunction={updatePublic}
+                // updatePublicFunction={updatePublicMutation}
               />
             );
           })
