@@ -8,4 +8,5 @@ type Snippet = {
   posterId: string;
   favorites: number;
   createdAt: ReactNode;
+  updatedAt: ReactNode;
 };

@@ -9,10 +9,13 @@ import {
   FaUndo,
   FaLock,
   FaUnlock,
+  FaExpandAlt,
 } from "react-icons/fa";
 import { useState } from "react";
 import CodeFormatTest from "./CodeFormatTest";
+import ModalCodePreview from "./ModalCodePreview";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
 
 export default function SnippetCards({
   snippet,
@@ -120,13 +123,48 @@ export default function SnippetCards({
       <div className="card w-96 bg-base-100 shadow-xl break-words hover:outline-blue-500 hover:outline inline-block m-2 dark:bg-gray-800 animate-fadeIn">
         <figure className="relative">
           <CodeFormatTest code={snippet.snippet} language={snippet.language} />
-          <div className="absolute top-0 right-0 m-4 tooltip tooltip-left" data-tip={"Copy"}>
-            <button
-              className="btn btn-outline btn-success btn-xs"
-              onClick={() => copyCode(snippet.snippet)}
-            >
-              <FaCopy />
-            </button>
+          <div className="absolute top-0 right-0 m-4 flex gap-2">
+            <div className="tooltip tooltip-left " data-tip={"Copy"}>
+              <button
+                className="btn btn-outline btn-success btn-xs"
+                onClick={() => copyCode(snippet.snippet)}
+              >
+                <FaCopy />
+              </button>
+            </div>
+            <div className="tooltip tooltip-left " data-tip={"Expand"}>
+              <button
+                className="btn btn-outline btn-success btn-xs"
+                onClick={() => {
+                  if (document) {
+                    (document.getElementById(snippet.id) as HTMLFormElement).showModal();
+                  }
+                }}
+              >
+                <FaExpandAlt />
+              </button>
+              <dialog id={snippet.id} className="modal">
+                <form method="dialog" className="modal-box max-w-min scrollbar rounded-lg">
+                  <p className="py-4">Press ESC key or click outside to close</p>
+                  <div className="relative">
+                    <ModalCodePreview code={snippet.snippet} language={snippet.language} />
+                    <div className="absolute top-0 right-0 m-4 flex gap-2">
+                      <div className="tooltip tooltip-left " data-tip={"Copy"}>
+                        <button
+                          className="btn btn-outline btn-success btn-xs"
+                          onClick={() => copyCode(snippet.snippet)}
+                        >
+                          <FaCopy />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <form method="dialog" className="modal-backdrop">
+                  <button>close</button>
+                </form>
+              </dialog>
+            </div>
           </div>
         </figure>
         <div className="card-body">
@@ -237,6 +275,10 @@ export default function SnippetCards({
                 />
               </div>
             </div>
+          </div>
+          <div className="flex text-xs justify-between text-gray-400">
+            <span>Created {moment(snippet.createdAt).format("MMM DD, YYYY")}</span>
+            <span>Updated {moment(snippet.updatedAt).fromNow()}</span>
           </div>
         </div>
       </div>
