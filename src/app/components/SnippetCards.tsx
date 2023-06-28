@@ -167,7 +167,7 @@ export default function SnippetCards({
             </div>
           </div>
         </figure>
-        <div className="card-body">
+        <div className="card-body p-5">
           <div className="flex justify-between">
             <div className=" flex gap-2">
               <button className="btn btn-outline btn-accent btn-xs">

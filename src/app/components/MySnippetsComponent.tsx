@@ -115,7 +115,7 @@ export default function MySnippetsComponent() {
     //     </div>
     //   )}
     // </div>
-    <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full m-auto">
+    <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full m-auto gap-0">
       {data.map((snippet: Snippet, i: number) => {
         return (
           <SnippetCards
