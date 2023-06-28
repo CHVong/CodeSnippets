@@ -24,7 +24,7 @@ export default function Code({ code, language }: Props) {
     Prism.highlightAll();
   }, [language]);
   return (
-    <pre className="w-96 h-60 scrollbar">
+    <pre className="w-full h-60 scrollbar">
       <code className={`language-${language}`}>{code}</code>
     </pre>
   );

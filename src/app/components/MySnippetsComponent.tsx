@@ -115,19 +115,17 @@ export default function MySnippetsComponent() {
     //     </div>
     //   )}
     // </div>
-    <div>
-      {data
-        ? data.map((snippet: Snippet, i: number) => {
-            return (
-              <SnippetCards
-                key={snippet.id}
-                snippet={snippet}
-                sessionId={sessionId}
-                // updatePublicFunction={updatePublicMutation}
-              />
-            );
-          })
-        : "Nothing"}
+    <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full m-auto">
+      {data.map((snippet: Snippet, i: number) => {
+        return (
+          <SnippetCards
+            key={snippet.id}
+            snippet={snippet}
+            sessionId={sessionId}
+            // updatePublicFunction={updatePublicMutation}
+          />
+        );
+      })}
     </div>
   );
 }

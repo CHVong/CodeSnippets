@@ -119,8 +119,8 @@ export default function SnippetCards({
   }
 
   return (
-    <section key={snippet.id}>
-      <div className="card w-96 bg-base-100 shadow-xl break-words hover:outline-blue-500 hover:outline inline-block m-2 dark:bg-gray-800 animate-fadeIn">
+    <section key={snippet.id} className="p-4">
+      <div className="card w-full bg-base-100 shadow-xl break-words hover:outline-blue-500 hover:outline inline-block dark:bg-gray-800 animate-fadeIn">
         <figure className="relative">
           <CodeFormatTest code={snippet.snippet} language={snippet.language} />
           <div className="absolute top-0 right-0 m-4 flex gap-2">
