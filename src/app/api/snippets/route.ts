@@ -28,26 +28,27 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
-  const { snippetId } = await request.json();
-  console.log(snippetId);
-  try {
-    const data = await prisma.codeSnippet.delete({
-      where: { id: String(snippetId) },
-    });
-    console.log(data);
+// export async function DELETE(request: Request) {
+//   const { snippetId } = await request.json();
+//   console.log(snippetId);
+//   try {
+//     const data = await prisma.codeSnippet.delete({
+//       where: { id: String(snippetId) },
+//     });
+//     console.log(data);
 
-    const message = `${data} has been updated successfully.`;
-    const responseData = {
-      message: message,
-      data: data,
-    };
+//     const message = `${data} has been updated successfully.`;
+//     const responseData = {
+//       message: message,
+//       data: data,
+//     };
 
-    return new Response(JSON.stringify(responseData), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify(error), { status: 500 });
-  }
-}
+//     return new Response(JSON.stringify(responseData), { status: 200 });
+//   } catch (error) {
+//     return new Response(JSON.stringify(error), { status: 500 });
+//   }
+// }
+
 export async function PATCH(request: Request) {
   const { snippetId, isPublic } = await request.json();
   console.log(snippetId, isPublic, !isPublic);

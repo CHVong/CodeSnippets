@@ -77,16 +77,17 @@ export default function SnippetCards({
   });
 
   async function deleteSnippet(snippetId: string) {
-    const response = await fetch(`/api/snippets`, {
+    const response = await fetch(`/api/snippets/deletesnippet/${snippet.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ snippetId: snippetId.toString() }),
+      // body: JSON.stringify({ snippetId: snippetId.toString() }),
     });
     if (!response.ok) {
       throw new Error("Network Error: Failed to delete snippet");
     }
+    console.log("snippet deleted");
     return response.json();
   }
 
