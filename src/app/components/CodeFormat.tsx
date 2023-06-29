@@ -19,7 +19,7 @@ type Props = {
   language: string;
 };
 
-export default function Code({ code, language }: Props) {
+export default function CodeFormat({ code, language }: Props) {
   useEffect(() => {
     Prism.highlightAll();
   }, [language]);

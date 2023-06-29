@@ -12,8 +12,7 @@ import {
   FaExpandAlt,
 } from "react-icons/fa";
 import { useState } from "react";
-import CodeFormatTest from "./CodeFormatTest";
-import ModalCodePreview from "./ModalCodePreview";
+import CodeFormat from "./CodeFormat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 
@@ -122,7 +121,7 @@ export default function SnippetCards({
     <section key={snippet.id} className="p-4">
       <div className="card w-full bg-base-100 shadow-xl break-words hover:outline-blue-500 hover:outline inline-block dark:bg-gray-800 animate-fadeIn">
         <figure className="relative">
-          <CodeFormatTest code={snippet.snippet} language={snippet.language} />
+          <CodeFormat code={snippet.snippet} language={snippet.language} />
           <div className="absolute top-0 right-0 m-4 flex gap-2">
             <div className="tooltip tooltip-left " data-tip={"Copy"}>
               <button
@@ -145,9 +144,11 @@ export default function SnippetCards({
               </button>
               <dialog id={snippet.id} className="modal">
                 <form method="dialog" className="modal-box max-w-min scrollbar rounded-lg">
-                  <p className="py-4">Press ESC key or click outside to close</p>
+                  <p className="pb-4">Press ESC key or click outside to close</p>
                   <div className="relative">
-                    <ModalCodePreview code={snippet.snippet} language={snippet.language} />
+                    <pre className="w-full h-full scrollbar rounded-lg">
+                      <code className={`language-${snippet.language}`}>{snippet.snippet}</code>
+                    </pre>
                     <div className="absolute top-0 right-0 m-4 flex gap-2">
                       <div className="tooltip tooltip-left " data-tip={"Copy"}>
                         <button

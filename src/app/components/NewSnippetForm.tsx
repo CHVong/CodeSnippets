@@ -4,9 +4,9 @@ import { FormEventHandler, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import dynamic from "next/dynamic";
-const CodeFormatTest = dynamic(() => import("../components/CodeFormatTest"), {
-  ssr: false,
-});
+// const CodeFormat = dynamic(() => import("./CodeFormat"), {
+//   ssr: false,
+// });
 
 // import CodeFormatTest from "./CodeFormatTest";
 import BrowserEditor from "./BrowserEditor";
