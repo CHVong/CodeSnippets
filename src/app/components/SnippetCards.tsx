@@ -14,7 +14,8 @@ import {
 import { useState } from "react";
 import CodeFormat from "./CodeFormat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import moment from "moment";
+import SnippetCardCreatedandUpdated from "./SnippetCardCreatedandUpdated";
+import SnippetCardPublicandPrivate from "./SnippetCardPublicandPrivate";
 
 export default function SnippetCards({
   snippet,
@@ -37,7 +38,6 @@ export default function SnippetCards({
     css: "CSS",
     html: "HTML",
   };
-
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
   async function copyCode(code: string) {
@@ -49,18 +49,6 @@ export default function SnippetCards({
     mutationFn: deleteSnippet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["snippets"] });
-    },
-  });
-
-  const updatePublicMutation = useMutation({
-    mutationFn: updatePublic,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
-        const newData = [...oldData];
-        const index = newData.findIndex((snippet: any) => snippet.id === data.data.id);
-        newData[index] = data.data;
-        return newData;
-      });
     },
   });
 
@@ -91,19 +79,6 @@ export default function SnippetCards({
     return response.json();
   }
 
-  async function updatePublic({ snippetId, isPublic }: { snippetId: string; isPublic: boolean }) {
-    const response = await fetch(`/api/snippets`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ snippetId: snippetId.toString(), isPublic }),
-    });
-    if (!response.ok) {
-      throw new Error("Network Error: Failed to update snippet");
-    }
-    return response.json();
-  }
   async function updateLanguage({ snippetId, language }: { snippetId: string; language: string }) {
     const response = await fetch(`/api/snippets/updatelanguage`, {
       method: "PATCH",
@@ -174,9 +149,18 @@ export default function SnippetCards({
             <div className=" flex gap-2">
               <button className="btn btn-outline btn-accent btn-xs">
                 <FaHeart />
+                <span>{snippet.favorites}</span>
               </button>
-              <button className="btn btn-outline btn-neutral btn-xs">
+              <button
+                className="btn btn-outline btn-neutral btn-xs"
+                onClick={() => {
+                  if (document) {
+                    (document.getElementById(snippet.id) as HTMLFormElement).showModal();
+                  }
+                }}
+              >
                 <FaComment className="" />
+                <span></span>
               </button>
             </div>
 
@@ -254,34 +238,12 @@ export default function SnippetCards({
               </select>
             </div>
 
-            <div className="flex gap-2">
-              <div
-                className={`tooltip tooltip-left flex gap-2 items-center`}
-                data-tip={`${snippet.isPublic ? "Public" : "Private"} `}
-              >
-                {snippet.isPublic ? (
-                  <FaUnlock className="text-neutral" />
-                ) : (
-                  <FaLock className="text-neutral" />
-                )}
-                <input
-                  type="checkbox"
-                  className="toggle toggle-primary toggle-sm"
-                  defaultChecked={snippet.isPublic}
-                  onClick={() => {
-                    updatePublicMutation.mutate({
-                      snippetId: snippet.id,
-                      isPublic: snippet.isPublic,
-                    });
-                  }}
-                />
-              </div>
-            </div>
+            <SnippetCardPublicandPrivate snippet={snippet} sessionId={sessionId} />
           </div>
-          <div className="flex text-xs justify-between text-gray-400">
-            <span>Created {moment(snippet.createdAt).format("MMM DD, YYYY")}</span>
-            <span>Updated {moment(snippet.updatedAt).fromNow()}</span>
-          </div>
+          <SnippetCardCreatedandUpdated
+            createdAt={snippet.createdAt}
+            updatedAt={snippet.updatedAt}
+          />
         </div>
       </div>
     </section>

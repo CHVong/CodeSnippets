@@ -123,7 +123,7 @@ export default function NewSnippetForm() {
       </div>
       <div className="w-full text-center my-4">
         {createSnippetMutation.isSuccess && (
-          <div className="alert alert-success">
+          <div className="alert alert-success animate-fadeIn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="stroke-current shrink-0 h-6 w-6"
@@ -144,9 +144,9 @@ export default function NewSnippetForm() {
         <button className="btn btn-neutral">
           Save
           {createSnippetMutation.isLoading ? (
-            <span className="loading loading-spinner text-primary loading-xs self-center"></span>
+            <span className="loading loading-spinner text-primary loading-xs self-center animate-fadeIn"></span>
           ) : (
-            <FaPlus />
+            <FaPlus className="animate-fadeIn" />
           )}
         </button>
       </div>
