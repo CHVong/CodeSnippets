@@ -1,5 +1,5 @@
 import { FaExpandAlt } from "react-icons/fa";
-import SnippetCopyButton from "./SnippetCopyButton";
+import SnippetCardCopyButton from "./SnippetCardCopyButton";
 
 export default function SnippetCardExpandButton({ snippet }: { snippet: any }) {
   return (
@@ -22,7 +22,7 @@ export default function SnippetCardExpandButton({ snippet }: { snippet: any }) {
               <code className={`language-${snippet.language}`}>{snippet.snippet}</code>
             </pre>
             <div className="absolute top-0 right-0 m-4 flex gap-2">
-              <SnippetCopyButton snippet={snippet} />
+              <SnippetCardCopyButton snippet={snippet} />
             </div>
           </div>
         </form>

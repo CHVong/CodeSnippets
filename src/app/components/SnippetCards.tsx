@@ -6,7 +6,7 @@ import SnippetCardCreatedandUpdated from "./SnippetCardComponents/SnippetCardCre
 import SnippetCardPublicandPrivate from "./SnippetCardComponents/SnippetCardPublicandPrivate";
 import SnippetCardSetLanguage from "./SnippetCardComponents/SnippetCardSetLanguage";
 import SnippetCardDelete from "./SnippetCardComponents/SnippetCardDelete";
-import SnippetCopyButton from "./SnippetCardComponents/SnippetCopyButton";
+import SnippetCardCopyButton from "./SnippetCardComponents/SnippetCardCopyButton";
 import SnippetCardExpandButton from "./SnippetCardComponents/SnippetCardExpandButton";
 
 export default function SnippetCards({
@@ -22,7 +22,7 @@ export default function SnippetCards({
         <figure className="relative">
           <CodeFormat code={snippet.snippet} language={snippet.language} />
           <div className="absolute top-0 right-0 m-4 flex gap-2">
-            <SnippetCopyButton snippet={snippet} />
+            <SnippetCardCopyButton snippet={snippet} />
             <SnippetCardExpandButton snippet={snippet} />
           </div>
         </figure>
