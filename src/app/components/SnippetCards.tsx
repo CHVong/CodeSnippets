@@ -1,66 +1,31 @@
 "use client";
 
-import {
-  FaHeart,
-  FaComment,
-  FaTrash,
-  FaCopy,
-  FaCheck,
-  FaUndo,
-  FaLock,
-  FaUnlock,
-  FaExpandAlt,
-} from "react-icons/fa";
+import { FaHeart, FaComment, FaTrash, FaCopy, FaCheck, FaUndo, FaExpandAlt } from "react-icons/fa";
 import { useState } from "react";
 import CodeFormat from "./CodeFormat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import SnippetCardCreatedandUpdated from "./SnippetCardCreatedandUpdated";
-import SnippetCardPublicandPrivate from "./SnippetCardPublicandPrivate";
+import SnippetCardCreatedandUpdated from "./SnippetCardComponents/SnippetCardCreatedandUpdated";
+import SnippetCardPublicandPrivate from "./SnippetCardComponents/SnippetCardPublicandPrivate";
+import SnippetCardSetLanguage from "./SnippetCardComponents/SnippetCardSetLanguage";
 
 export default function SnippetCards({
   snippet,
-  // updatePublicFunction,
   sessionId,
 }: {
   snippet: Snippet;
-  // updatePublicFunction: any;
   sessionId: string;
 }) {
-  const languageFullName: { [key: string]: string } = {
-    markup: "Other",
-    js: "Javascript",
-    java: "Java",
-    python: "Python",
-    php: "PHP",
-    c: "C",
-    cpp: "C++",
-    csharp: "C#",
-    css: "CSS",
-    html: "HTML",
-  };
   const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   async function copyCode(code: string) {
     await navigator.clipboard.writeText(code);
   }
-  const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
     mutationFn: deleteSnippet,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["snippets"] });
-    },
-  });
-
-  const updateLanguageMutation = useMutation({
-    mutationFn: updateLanguage,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
-        const newData = [...oldData];
-        const index = newData.findIndex((snippet: any) => snippet.id === data.data.id);
-        newData[index] = data.data;
-        return newData;
-      });
     },
   });
 
@@ -76,20 +41,6 @@ export default function SnippetCards({
       throw new Error("Network Error: Failed to delete snippet");
     }
     console.log("snippet deleted");
-    return response.json();
-  }
-
-  async function updateLanguage({ snippetId, language }: { snippetId: string; language: string }) {
-    const response = await fetch(`/api/snippets/updatelanguage`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ snippetId, language }),
-    });
-    if (!response.ok) {
-      throw new Error("Network Error: Failed to update snippet");
-    }
     return response.json();
   }
 
@@ -211,33 +162,7 @@ export default function SnippetCards({
           <p className="">{snippet.description}</p>
 
           <div className="card-actions justify-between items-center">
-            <div>
-              <select
-                className="select select-bordered select-xs w-full max-w-xs"
-                defaultValue={""}
-                onChange={(event) => {
-                  updateLanguageMutation.mutate({
-                    snippetId: snippet.id,
-                    language: event.target.value,
-                  });
-                }}
-              >
-                <option value="" disabled>
-                  {languageFullName[snippet.language as string]}
-                </option>
-                <option value="html">HTML</option>
-                <option value="css">CSS</option>
-                <option value="js">Javascript</option>
-                <option value="java">Java</option>
-                <option value="python">Python</option>
-                <option value="php">PHP</option>
-                <option value="c">C</option>
-                <option value="cpp">C++</option>
-                <option value="csharp">C#</option>
-                <option value="markup">Other</option>
-              </select>
-            </div>
-
+            <SnippetCardSetLanguage snippet={snippet} sessionId={sessionId} />
             <SnippetCardPublicandPrivate snippet={snippet} sessionId={sessionId} />
           </div>
           <SnippetCardCreatedandUpdated
