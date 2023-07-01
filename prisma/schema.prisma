@@ -76,6 +76,8 @@ model SnippetComment {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   commenterId String
+  commenterName String
+  comment     String
   user        User     @relation(fields: [commenterId], references: [id], onDelete: Cascade)
   codeSnippetId String
   codeSnippet CodeSnippet       @relation(fields: [codeSnippetId], references: [id], onDelete: Cascade)

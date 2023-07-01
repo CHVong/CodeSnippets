@@ -16,9 +16,9 @@ export default function SnippetCardExpandButton({ snippet }: { snippet: any }) {
       </button>
       <dialog id={snippet.id} className="modal">
         <form method="dialog" className="modal-box max-w-min scrollbar rounded-lg">
-          <p className="pb-4">Press ESC key or click outside to close</p>
+          <p className="pb-4 text-2xl font-bold">Snippet</p>
           <div className="relative">
-            <pre className="w-full h-full scrollbar rounded-lg">
+            <pre className="w-full h-full scrollbar rounded-lg line-numbers">
               <code className={`language-${snippet.language}`}>{snippet.snippet}</code>
             </pre>
             <div className="absolute top-0 right-0 m-4 flex gap-2">

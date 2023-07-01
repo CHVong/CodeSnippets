@@ -13,7 +13,8 @@ import "prismjs/components/prism-php";
 import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
 import "prismjs/components/prism-csharp";
-
+import "prismjs/plugins/line-numbers/prism-line-numbers.js";
+import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 type Props = {
   code: string;
   language: string;
@@ -25,7 +26,7 @@ export default function CodeFormat({ code, language }: Props) {
   }, [language]);
   return (
     <pre className="w-full h-60 scrollbar">
-      <code className={`language-${language}`}>{code}</code>
+      <code className={`language-${language} `}>{code}</code>
     </pre>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { FaHeart, FaComment, FaExpandAlt, FaCopy } from "react-icons/fa";
+import { FaHeart, FaComment } from "react-icons/fa";
 import CodeFormat from "./CodeFormat";
 import SnippetCardCreatedandUpdated from "./SnippetCardComponents/SnippetCardCreatedandUpdated";
 import SnippetCardPublicandPrivate from "./SnippetCardComponents/SnippetCardPublicandPrivate";
@@ -8,6 +8,7 @@ import SnippetCardSetLanguage from "./SnippetCardComponents/SnippetCardSetLangua
 import SnippetCardDelete from "./SnippetCardComponents/SnippetCardDelete";
 import SnippetCardCopyButton from "./SnippetCardComponents/SnippetCardCopyButton";
 import SnippetCardExpandButton from "./SnippetCardComponents/SnippetCardExpandButton";
+import SnippetCardCommentsButton from "./SnippetCardComponents/SnippetCardCommentsButton";
 
 export default function SnippetCards({
   snippet,
@@ -33,16 +34,7 @@ export default function SnippetCards({
                 <FaHeart />
                 <span>{snippet.favorites}</span>
               </button>
-              <button
-                className="btn btn-outline btn-neutral btn-xs"
-                // onClick={() => {
-                //   if (document) {
-                //     (document.getElementById(snippet.id) as HTMLFormElement).showModal();
-                //   }
-                // }}
-              >
-                <FaComment className="" />
-              </button>
+              <SnippetCardCommentsButton snippet={snippet} />
             </div>
             <SnippetCardDelete snippet={snippet} sessionId={sessionId} />
           </div>
