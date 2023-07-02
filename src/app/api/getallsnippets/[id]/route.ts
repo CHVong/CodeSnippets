@@ -15,6 +15,13 @@ export async function GET(request: Request, params: { params: session }) {
     orderBy: {
       updatedAt: "desc",
     },
+    include: {
+      comments: {
+        select: {
+          id: true, // Include only the 'id' field from comments
+        },
+      },
+    },
   });
   try {
     if (!id) {
@@ -22,7 +29,13 @@ export async function GET(request: Request, params: { params: session }) {
         status: 400,
       });
     }
-    return new Response(JSON.stringify(snippets), { status: 200 });
+
+    const snippetsWithCommentCount = snippets.map((snippet) => ({
+      ...snippet,
+      totalComments: snippet.comments.length,
+    }));
+
+    return new Response(JSON.stringify(snippetsWithCommentCount), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });
   }

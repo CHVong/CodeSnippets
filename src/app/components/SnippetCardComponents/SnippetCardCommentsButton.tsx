@@ -35,6 +35,7 @@ export default function SnippetCardCommentsButton({ snippet }: { snippet: any })
         }}
       >
         <FaComment />
+        {snippet.totalComments}
       </button>
       <dialog id={commentKey} className="modal">
         <form method="dialog" className="modal-box w-11/12 scrollbar rounded-lg ">

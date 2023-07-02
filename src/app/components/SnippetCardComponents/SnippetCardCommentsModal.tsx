@@ -13,6 +13,7 @@ export default function SnippetCardCommentsModal({
   commentData: any;
 }) {
   const [comment, setComment] = useState("");
+  const [newest, setNewest] = useState(true);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
@@ -21,6 +22,8 @@ export default function SnippetCardCommentsModal({
     mutationFn: submitComment,
     onSuccess: (data) => {
       // queryClient.invalidateQueries({ queryKey: ["comments", snippet.id] });
+      queryClient.invalidateQueries({ queryKey: ["snippets", session?.token.sub] });
+      // temporary refetch, inefficient, can go back and only fetch per changed snippet.
       queryClient.setQueryData(["comments", snippet.id], (oldData: any) => {
         console.log(oldData);
         const newData = [data, ...oldData];
@@ -77,11 +80,21 @@ export default function SnippetCardCommentsModal({
         <FaPaperPlane />
       </div>
       <div className="tabs py-4 justify-center">
-        <a className="tab tab-bordered tab-active">Newest</a>
-        <a className="tab tab-bordered">Oldest</a>
+        <a
+          className={`tab tab-bordered ${newest ? "tab-active" : ""}`}
+          onClick={() => setNewest(!newest)}
+        >
+          Newest
+        </a>
+        <a
+          className={`tab tab-bordered ${newest ? "" : "tab-active"}`}
+          onClick={() => setNewest(!newest)}
+        >
+          Oldest
+        </a>
       </div>
 
-      {commentData?.length ? (
+      {commentData?.length && newest ? (
         commentData.map((comment: any, index: any) => {
           if (
             index % 2 === 0 ||
@@ -92,7 +105,12 @@ export default function SnippetCardCommentsModal({
               <div className="chat chat-end" key={comment.id}>
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
-                    <Image src={`${session?.user.image}`} alt="User image" width={96} height={96} />
+                    <Image
+                      src={`${comment.commenterImage}`}
+                      alt="User image"
+                      width={96}
+                      height={96}
+                    />
                   </div>
                 </div>
                 <div className="chat-header">
@@ -110,7 +128,65 @@ export default function SnippetCardCommentsModal({
               <div className="chat chat-start" key={comment.id}>
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
-                    <Image src={`${session?.user.image}`} alt="User image" width={96} height={96} />
+                    <Image
+                      src={`${comment.commenterImage}`}
+                      alt="User image"
+                      width={96}
+                      height={96}
+                    />
+                  </div>
+                </div>
+                <div className="chat-header">
+                  <span>{comment.commenterName}</span>
+                  <time className="text-xs opacity-50">
+                    {/* {moment(commentData.createdAt).format("MMM DD, YYYY h:mm A")} */}
+                    {moment(comment.createdAt).fromNow()}
+                  </time>
+                </div>
+                <div className="chat-bubble">{comment.comment}</div>
+              </div>
+            );
+        })
+      ) : commentData?.length && !newest ? (
+        [...commentData].reverse().map((comment: any, index: any) => {
+          if (
+            index % 2 === 0 ||
+            comment.commenterName === username ||
+            comment[index - 1].commenterName === comment[index].commenterName
+          ) {
+            return (
+              <div className="chat chat-end" key={comment.id}>
+                <div className="chat-image avatar">
+                  <div className="w-10 rounded-full">
+                    <Image
+                      src={`${comment.commenterImage}`}
+                      alt="User image"
+                      width={96}
+                      height={96}
+                    />
+                  </div>
+                </div>
+                <div className="chat-header">
+                  <span>{comment.commenterName}</span>
+                  <time className="text-xs opacity-50">
+                    {/* {moment(commentData.createdAt).format("MMM DD, YYYY h:mm A")} */}
+                    {moment(comment.createdAt).fromNow()}
+                  </time>
+                </div>
+                <div className="chat-bubble">{comment.comment}</div>
+              </div>
+            );
+          } else
+            return (
+              <div className="chat chat-start" key={comment.id}>
+                <div className="chat-image avatar">
+                  <div className="w-10 rounded-full">
+                    <Image
+                      src={`${comment.commenterImage}`}
+                      alt="User image"
+                      width={96}
+                      height={96}
+                    />
                   </div>
                 </div>
                 <div className="chat-header">

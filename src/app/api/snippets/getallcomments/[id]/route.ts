@@ -23,6 +23,18 @@ export async function GET(request: Request, params: { params: session }) {
         status: 400,
       });
     }
+
+    for (const comment of comments) {
+      const { commenterId } = comment;
+      // Perform additional query using the comment id
+      const additionalData = await prisma.user.findUnique({
+        where: {
+          id: commenterId,
+        },
+      });
+      comment.commenterImage = additionalData?.image as string;
+    }
+
     return new Response(JSON.stringify(comments), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });
