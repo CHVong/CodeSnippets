@@ -44,9 +44,9 @@ export default function SnippetCards({
           <h2 className="card-title">
             <SnippetCardTitle snippet={snippet} sessionId={sessionId} />
           </h2>
-          <p className="">
+          <h3 className="">
             <SnippetCardDescription snippet={snippet} sessionId={sessionId} />
-          </p>
+          </h3>
 
           <div className="card-actions justify-between items-center">
             <SnippetCardSetLanguage snippet={snippet} sessionId={sessionId} />

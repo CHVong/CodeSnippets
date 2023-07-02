@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import SnippetCards from "./SnippetCards";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import Search from "./Search";
+import Filter from "./Filter";
 
 export default function MySnippetsComponent() {
   const [snippets, setSnippets] = useState<null | Snippet[]>([]);
@@ -67,25 +69,8 @@ export default function MySnippetsComponent() {
 
   return (
     <>
-      {/* <div className="join">
-        <div>
-          <div>
-            <input className="input input-bordered join-item" placeholder="Search..." />
-          </div>
-        </div>
-        <select className="select select-bordered join-item">
-          <option disabled selected>
-            Filter
-          </option>
-          <option>Sci-fi</option>
-          <option>Drama</option>
-          <option>Action</option>
-        </select>
-        <div className="indicator">
-          <span className="indicator-item badge badge-secondary">new</span>
-          <button className="btn join-item">Search</button>
-        </div>
-      </div> */}
+      <Search />
+      <Filter />
       <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full sm:w-11/12 m-auto gap-0">
         {data.snippets.map((snippet: Snippet, i: number) => {
           return <SnippetCards key={snippet.id} snippet={snippet} sessionId={sessionId} />;
