@@ -9,6 +9,7 @@ import SnippetCardDelete from "./SnippetCardComponents/SnippetCardDelete";
 import SnippetCardCopyButton from "./SnippetCardComponents/SnippetCardCopyButton";
 import SnippetCardExpandButton from "./SnippetCardComponents/SnippetCardExpandButton";
 import SnippetCardCommentsButton from "./SnippetCardComponents/SnippetCardCommentsButton";
+import SnippetCardTitle from "./SnippetCardComponents/SnippetCardTitle";
 
 export default function SnippetCards({
   snippet,
@@ -39,7 +40,9 @@ export default function SnippetCards({
             <SnippetCardDelete snippet={snippet} sessionId={sessionId} />
           </div>
 
-          <h2 className="card-title">{snippet.title}</h2>
+          <h2 className="card-title">
+            <SnippetCardTitle snippet={snippet} sessionId={sessionId} />
+          </h2>
           <p className="">{snippet.description}</p>
 
           <div className="card-actions justify-between items-center">

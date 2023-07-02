@@ -16,7 +16,7 @@ export default function SnippetCardPublicandPrivate({
       queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
         const newData = oldData.snippets.map((snippet: any) => {
           if (snippet.id === data.data.id) {
-            return data.data;
+            return { ...snippet, isPublic: data.data.isPublic, updatedAt: data.data.updatedAt };
           }
           return snippet;
         });

@@ -26,7 +26,7 @@ export default function SnippetCardSetLanguage({
       queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
         const newData = oldData.snippets.map((snippet: any) => {
           if (snippet.id === data.data.id) {
-            return data.data;
+            return { ...snippet, language: data.data.language, updatedAt: data.data.updatedAt };
           }
           return snippet;
         });

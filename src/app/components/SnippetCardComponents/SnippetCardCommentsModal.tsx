@@ -218,7 +218,7 @@ export default function SnippetCardCommentsModal({
           <span>There are no comments for this snippet</span>
         </div>
       ) : (
-        <span className="loading loading-spinner text-info"></span>
+        <span className="loading loading-spinner"></span>
       )}
     </div>
   );
