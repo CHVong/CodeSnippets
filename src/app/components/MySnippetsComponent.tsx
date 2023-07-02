@@ -95,7 +95,7 @@ export default function MySnippetsComponent() {
         <button className="join-item btn" onClick={decrementPage}>
           «
         </button>
-        <button className="join-item btn">
+        <button className="join-item btn no-animation">
           Page {data.currentPage} of {data.totalPages}
           {isFetching && <span className="loading loading-spinner loading-xs"></span>}
         </button>
