@@ -12,12 +12,14 @@ export default function MySnippetsComponent() {
   const sessionId = session?.token?.sub;
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError, error, refetch } = useQuery({
+  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
     queryKey: ["snippets", sessionId],
     queryFn: getAllSnippets,
     enabled: !!sessionId,
   });
-
+  useEffect(() => {
+    refetch();
+  }, [page]);
   if (isLoading) {
     return <span className="loading loading-bars loading-lg bg-primary"></span>;
   }
@@ -42,10 +44,6 @@ export default function MySnippetsComponent() {
       </div>
     );
   }
-
-  useEffect(() => {
-    refetch();
-  }, [page]);
 
   async function getAllSnippets() {
     const response = await fetch(`/api/getallsnippets/${sessionId}/${page}`);
@@ -80,6 +78,7 @@ export default function MySnippetsComponent() {
         </button>
         <button className="join-item btn">
           Page {data.currentPage} of {data.totalPages}
+          {isFetching && <span className="loading loading-spinner loading-xs"></span>}
         </button>
         <button className="join-item btn" onClick={incrementPage}>
           »
