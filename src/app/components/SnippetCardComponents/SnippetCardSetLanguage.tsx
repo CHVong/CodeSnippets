@@ -24,10 +24,16 @@ export default function SnippetCardSetLanguage({
     mutationFn: updateLanguage,
     onSuccess: (data) => {
       queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
-        const newData = [...oldData];
-        const index = newData.findIndex((snippet: any) => snippet.id === data.data.id);
-        newData[index] = data.data;
-        return newData;
+        const newData = oldData.snippets.map((snippet: any) => {
+          if (snippet.id === data.data.id) {
+            return data.data;
+          }
+          return snippet;
+        });
+        return {
+          ...oldData,
+          snippets: newData,
+        };
       });
     },
   });

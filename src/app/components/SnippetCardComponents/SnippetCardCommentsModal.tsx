@@ -182,7 +182,7 @@ export default function SnippetCardCommentsModal({
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <Image
-                      src={`${comment.commenterImage}`}
+                      src={`${comment?.commenterImage}`}
                       alt="User image"
                       width={96}
                       height={96}

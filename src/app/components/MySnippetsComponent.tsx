@@ -10,8 +10,9 @@ export default function MySnippetsComponent() {
   const [snippets, setSnippets] = useState<null | Snippet[]>([]);
   const { data: session, status } = useSession();
   const sessionId = session?.token?.sub;
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["snippets", sessionId],
     queryFn: getAllSnippets,
     enabled: !!sessionId,
@@ -42,19 +43,48 @@ export default function MySnippetsComponent() {
     );
   }
 
+  useEffect(() => {
+    refetch();
+  }, [page]);
+
   async function getAllSnippets() {
-    const response = await fetch(`/api/getallsnippets/${sessionId}`);
+    const response = await fetch(`/api/getallsnippets/${sessionId}/${page}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     return response.json();
   }
 
+  const incrementPage = () => {
+    if (page < data.totalPages) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const decrementPage = () => {
+    if (page > 1) {
+      setPage((prevPage) => prevPage - 1);
+    }
+  };
+
   return (
-    <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full sm:w-11/12 m-auto gap-0">
-      {data.map((snippet: Snippet, i: number) => {
-        return <SnippetCards key={snippet.id} snippet={snippet} sessionId={sessionId} />;
-      })}
-    </div>
+    <>
+      <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full sm:w-11/12 m-auto gap-0">
+        {data.snippets.map((snippet: Snippet, i: number) => {
+          return <SnippetCards key={snippet.id} snippet={snippet} sessionId={sessionId} />;
+        })}
+      </div>
+      <div className="join p-4">
+        <button className="join-item btn" onClick={decrementPage}>
+          «
+        </button>
+        <button className="join-item btn">
+          Page {data.currentPage} of {data.totalPages}
+        </button>
+        <button className="join-item btn" onClick={incrementPage}>
+          »
+        </button>
+      </div>
+    </>
   );
 }
