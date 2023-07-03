@@ -81,13 +81,13 @@ export default function SnippetCardCommentsModal({
       </div>
       <div className="tabs py-4 justify-center">
         <a
-          className={`tab tab-bordered ${newest ? "tab-active" : ""}`}
+          className={`tab tab-bordered ${newest ? "tab-active animate-fadeIn" : ""}`}
           onClick={() => setNewest(!newest)}
         >
           Newest
         </a>
         <a
-          className={`tab tab-bordered ${newest ? "" : "tab-active"}`}
+          className={`tab tab-bordered ${newest ? "" : "tab-active animate-fadeIn"}`}
           onClick={() => setNewest(!newest)}
         >
           Oldest

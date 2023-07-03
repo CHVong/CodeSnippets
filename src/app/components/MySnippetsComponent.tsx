@@ -13,15 +13,18 @@ export default function MySnippetsComponent() {
   const { data: session, status } = useSession();
   const sessionId = session?.token?.sub;
   const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("newest");
+  const [search, setSearch] = useState("");
 
   const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
     queryKey: ["snippets", sessionId],
     queryFn: getAllSnippets,
     enabled: !!sessionId,
+    staleTime: 1000 * 60 * 5,
   });
   useEffect(() => {
     refetch();
-  }, [page]);
+  }, [page, activeTab]);
   if (isLoading) {
     return <span className="loading loading-bars loading-lg bg-primary"></span>;
   }
@@ -48,7 +51,9 @@ export default function MySnippetsComponent() {
   }
 
   async function getAllSnippets() {
-    const response = await fetch(`/api/getallsnippets/${sessionId}/${page}`);
+    const response = await fetch(
+      `/api/getallsnippets/find/${activeTab}/${sessionId}/${page}/${search}`
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -69,8 +74,50 @@ export default function MySnippetsComponent() {
 
   return (
     <>
-      <Search />
-      <Filter />
+      <div className="join px-2 pb-6 animate-fadeIn">
+        <div>
+          <div>
+            <input
+              className="input  join-item w-full"
+              placeholder="Title or Description ..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </div>
+        </div>
+
+        <button className="btn join-item" onClick={() => refetch()}>
+          Search
+        </button>
+      </div>
+      <div className="tabs pb-6 animate-fadeIn relative">
+        <a
+          className={`tab tab-bordered ${activeTab === "newest" && "tab-active animate-fadeIn"}`}
+          onClick={() => {
+            setActiveTab("newest");
+          }}
+        >
+          Newest
+        </a>
+        <a
+          className={`tab tab-bordered ${activeTab === "oldest" && "tab-active animate-fadeIn"}`}
+          onClick={() => {
+            setActiveTab("oldest");
+          }}
+        >
+          Oldest
+        </a>
+        <a
+          className={`tab tab-bordered ${activeTab === "favorited" && "tab-active animate-fadeIn"}`}
+          onClick={() => setActiveTab("favorited")}
+        >
+          Favorited
+        </a>
+        {isFetching && (
+          <span className="loading loading-spinner loading-sm absolute top-3/4 right-1/2"></span>
+        )}
+      </div>
+
       <div className="xl:columns-4 xl:w-4/5 lg:columns-3 md:columns-2 columns-1 w-full sm:w-11/12 m-auto gap-0">
         {data.snippets.map((snippet: Snippet, i: number) => {
           return <SnippetCards key={snippet.id} snippet={snippet} sessionId={sessionId} />;
