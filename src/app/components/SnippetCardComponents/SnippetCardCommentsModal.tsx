@@ -14,6 +14,7 @@ export default function SnippetCardCommentsModal({
 }) {
   const [comment, setComment] = useState("");
   const [newest, setNewest] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
@@ -74,8 +75,35 @@ export default function SnippetCardCommentsModal({
           onChange={(event) => setComment(event.target.value)}
         ></textarea>
       </div>
-
-      <div className="btn btn-outline btn-sm" onClick={createCommentMutation.mutate}>
+      {errorMessage && (
+        <div className="alert alert-error mb-2 gap-2 md:gap-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{errorMessage}</span>
+        </div>
+      )}
+      <div
+        className="btn btn-outline btn-sm"
+        onClick={() => {
+          if (comment.trim() !== "") {
+            setErrorMessage("");
+            createCommentMutation.mutate(event);
+          } else {
+            return setErrorMessage("Comments cannot be left blank!");
+          }
+        }}
+      >
         Submit
         <FaPaperPlane />
       </div>
