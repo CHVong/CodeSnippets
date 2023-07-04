@@ -33,23 +33,6 @@ export default function MySnippetsComponent() {
     return <span>Error: {error.message}</span>;
   }
 
-  if (data.length === 0) {
-    return (
-      <div className="hero-content text-center">
-        <div className="max-w-md">
-          <p className="py-6">
-            You currently do not have any saved snippets!
-            <br />
-            Check back here after you've created one.
-          </p>
-          <Link href={"/create"}>
-            <button className="btn btn-sm btn-primary">Create Snippets</button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   async function getAllSnippets() {
     const response = await fetch(
       `/api/getallsnippets/find/${activeTab}/${sessionId}/${page}/${search}`
@@ -82,6 +65,11 @@ export default function MySnippetsComponent() {
               placeholder="Title or Description ..."
               value={search}
               onChange={(event) => setSearch(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  refetch();
+                }
+              }}
             />
           </div>
         </div>
@@ -123,12 +111,37 @@ export default function MySnippetsComponent() {
           return <SnippetCards key={snippet.id} snippet={snippet} sessionId={sessionId} />;
         })}
       </div>
+      {data.snippets.length === 0 && (
+        <div className="hero-content text-center">
+          <div className="max-w-md">
+            <div className="alert alert-info">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <span>No snippets found!</span>
+              <Link href={"/create"}>
+                <button className="btn btn-sm btn-neutral">Create Snippets</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="join p-4">
         <button className="join-item btn" onClick={decrementPage}>
           «
         </button>
         <button className="join-item btn no-animation">
-          Page {data.currentPage} of {data.totalPages}
+          Page {data.currentPage} of {data.totalPages > 0 ? data.totalPages : "1"}
           {isFetching && <span className="loading loading-spinner loading-xs"></span>}
         </button>
         <button className="join-item btn" onClick={incrementPage}>
