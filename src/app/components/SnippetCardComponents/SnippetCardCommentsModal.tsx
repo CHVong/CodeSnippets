@@ -18,7 +18,9 @@ export default function SnippetCardCommentsModal({
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
+
   console.log(commentData);
+
   const createCommentMutation = useMutation({
     mutationFn: submitComment,
     onSuccess: (data) => {
@@ -28,6 +30,19 @@ export default function SnippetCardCommentsModal({
       queryClient.setQueryData(["comments", snippet.id], (oldData: any) => {
         console.log(oldData);
         const newData = [data, ...oldData];
+        return newData;
+      });
+      console.log("successfully submitted a comment");
+    },
+  });
+  const deleteCommentMutation = useMutation({
+    mutationFn: deleteComment,
+    onSuccess: (data) => {
+      // queryClient.invalidateQueries({ queryKey: ["comments", snippet.id] });
+      queryClient.invalidateQueries({ queryKey: ["snippets", session?.token.sub] });
+      // temporary refetch, inefficient, can go back and only fetch per changed snippet.
+      queryClient.setQueryData(["comments", snippet.id], (oldData: any) => {
+        const newData = oldData.filter((comment: any) => comment.id !== data.id);
         return newData;
       });
       console.log("successfully submitted a comment");
@@ -52,8 +67,25 @@ export default function SnippetCardCommentsModal({
     if (!response.ok) {
       throw new Error("Network Error: Failed to add a comment");
     }
-    console.log("Snippet created successfully!");
+    console.log("Comment created successfully!");
     setComment("");
+    return response.json();
+  }
+  async function deleteComment(commentId: any) {
+    const payload = {
+      commentId: commentId,
+    };
+    const response = await fetch("/api/snippets/deletecomment", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      throw new Error("Network Error: Failed to delete a comment");
+    }
+    console.log("Comment deleted successfully!");
     return response.json();
   }
 
@@ -130,7 +162,7 @@ export default function SnippetCardCommentsModal({
             comment[index - 1].commenterName === comment[index].commenterName
           ) {
             return (
-              <div className="chat chat-end" key={comment.id}>
+              <div className="chat chat-end animate-fadeIn" key={comment.id}>
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <Image
@@ -149,11 +181,21 @@ export default function SnippetCardCommentsModal({
                   </time>
                 </div>
                 <div className="chat-bubble">{comment.comment}</div>
+                {comment.commenterName === username && (
+                  <span
+                    className="text-xs opacity-50 hover:opacity-100 cursor-pointer"
+                    onClick={() => {
+                      deleteCommentMutation.mutate(comment.id);
+                    }}
+                  >
+                    Delete
+                  </span>
+                )}
               </div>
             );
           } else
             return (
-              <div className="chat chat-start" key={comment.id}>
+              <div className="chat chat-start animate-fadeIn" key={comment.id}>
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <Image
@@ -172,6 +214,16 @@ export default function SnippetCardCommentsModal({
                   </time>
                 </div>
                 <div className="chat-bubble">{comment.comment}</div>
+                {comment.commenterName === username && (
+                  <span
+                    className="text-xs opacity-50 hover:opacity-100 cursor-pointer"
+                    onClick={() => {
+                      deleteCommentMutation.mutate(comment.id);
+                    }}
+                  >
+                    Delete
+                  </span>
+                )}
               </div>
             );
         })
@@ -183,7 +235,7 @@ export default function SnippetCardCommentsModal({
             comment[index - 1].commenterName === comment[index].commenterName
           ) {
             return (
-              <div className="chat chat-end" key={comment.id}>
+              <div className="chat chat-end animate-fadeIn" key={comment.id}>
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <Image
@@ -202,11 +254,21 @@ export default function SnippetCardCommentsModal({
                   </time>
                 </div>
                 <div className="chat-bubble">{comment.comment}</div>
+                {comment.commenterName === username && (
+                  <span
+                    className="text-xs opacity-50 hover:opacity-100 cursor-pointer"
+                    onClick={() => {
+                      deleteCommentMutation.mutate(comment.id);
+                    }}
+                  >
+                    Delete
+                  </span>
+                )}
               </div>
             );
           } else
             return (
-              <div className="chat chat-start" key={comment.id}>
+              <div className="chat chat-start animate-fadeIn" key={comment.id}>
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <Image
@@ -225,6 +287,16 @@ export default function SnippetCardCommentsModal({
                   </time>
                 </div>
                 <div className="chat-bubble">{comment.comment}</div>
+                {comment.commenterName === username && (
+                  <span
+                    className="text-xs opacity-50 hover:opacity-100 cursor-pointer"
+                    onClick={() => {
+                      deleteCommentMutation.mutate(comment.id);
+                    }}
+                  >
+                    Delete
+                  </span>
+                )}
               </div>
             );
         })
