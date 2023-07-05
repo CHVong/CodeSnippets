@@ -111,7 +111,7 @@ export default function MySnippetsComponent() {
           return <SnippetCards key={snippet.id} snippet={snippet} sessionId={sessionId} />;
         })}
       </div>
-      {data.snippets.length === 0 && (
+      {data.snippets.length === 0 && data.currentPage === 1 && (
         <div className="hero-content text-center">
           <div className="max-w-md">
             <div className="alert alert-info">
@@ -141,7 +141,11 @@ export default function MySnippetsComponent() {
           «
         </button>
         <button className="join-item btn no-animation">
-          Page {data.currentPage} of {data.totalPages > 0 ? data.totalPages : "1"}
+          Page{" "}
+          {data.currentPage !== 1 && data.currentPage > data.totalPages
+            ? decrementPage()
+            : data.currentPage}{" "}
+          of {data.totalPages > 0 ? data.totalPages : "1"}
           {isFetching && <span className="loading loading-spinner loading-xs"></span>}
         </button>
         <button className="join-item btn" onClick={incrementPage}>
