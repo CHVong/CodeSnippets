@@ -8,6 +8,7 @@ import ExploreCreatedandUpdated from "./ExploreSnippetCardComponents/ExploreCrea
 import ExploreLanguage from "./ExploreSnippetCardComponents/ExploreLanguage";
 import ExploreCommentButtonLoggedIn from "./ExploreSnippetCardComponents/ExploreCommentButton";
 import ExploreCommentButtonGuest from "./ExploreSnippetCardComponents/ExploreCommentButtonGuest";
+import ExploreFavorites from "./ExploreSnippetCardComponents/ExploreFavorites";
 
 export default function ExploreSnippetCards({
   snippet,
@@ -29,10 +30,7 @@ export default function ExploreSnippetCards({
         <div className="card-body p-5">
           <div className="flex justify-between">
             <div className=" flex gap-2">
-              <button className="btn btn-outline btn-accent btn-xs">
-                <FaHeart />
-                <span>{snippet.favorites}</span>
-              </button>
+              <ExploreFavorites snippet={snippet} sessionId={sessionId} />
               {sessionId ? (
                 <ExploreCommentButtonLoggedIn snippet={snippet} />
               ) : (

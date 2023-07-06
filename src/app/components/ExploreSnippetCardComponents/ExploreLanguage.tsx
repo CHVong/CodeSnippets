@@ -13,7 +13,9 @@ const languageFullName: { [key: string]: string } = {
 export default function SnippetCardSetLanguage({ snippet }: { snippet: any }) {
   return (
     <div>
-      <div className="badge badge-info">{languageFullName[snippet.language as string]}</div>
+      <div className="badge badge-info font-bold">
+        {languageFullName[snippet.language as string]}
+      </div>
     </div>
   );
 }
