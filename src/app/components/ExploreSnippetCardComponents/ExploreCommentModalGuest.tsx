@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FaPaperPlane } from "react-icons/fa";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import moment from "moment";
+import { FaUserCircle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export default function SnippetCardCommentsModal({
   snippet,
@@ -15,89 +16,21 @@ export default function SnippetCardCommentsModal({
   const [comment, setComment] = useState("");
   const [newest, setNewest] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const { data: session } = useSession();
-  const queryClient = useQueryClient();
-  const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
+  const router = useRouter();
 
   console.log(commentData);
-
-  const createCommentMutation = useMutation({
-    mutationFn: submitComment,
-    onSuccess: (data) => {
-      // queryClient.invalidateQueries({ queryKey: ["comments", snippet.id] });
-      queryClient.invalidateQueries({ queryKey: ["snippets", session?.token.sub] });
-      // temporary refetch, inefficient, can go back and only fetch per changed snippet.
-      queryClient.setQueryData(["comments", snippet.id], (oldData: any) => {
-        console.log(oldData);
-        const newData = [data, ...oldData];
-        return newData;
-      });
-      console.log("successfully submitted a comment");
-    },
-  });
-  const deleteCommentMutation = useMutation({
-    mutationFn: deleteComment,
-    onSuccess: (data) => {
-      // queryClient.invalidateQueries({ queryKey: ["comments", snippet.id] });
-      queryClient.invalidateQueries({ queryKey: ["snippets", session?.token.sub] });
-      // temporary refetch, inefficient, can go back and only fetch per changed snippet.
-      queryClient.setQueryData(["comments", snippet.id], (oldData: any) => {
-        const newData = oldData.filter((comment: any) => comment.id !== data.id);
-        return newData;
-      });
-      console.log("successfully submitted a comment");
-    },
-  });
-
-  async function submitComment(event: any) {
-    event.preventDefault();
-    const payload = {
-      codeSnippetId: snippet.id,
-      commenterId: session?.token.sub,
-      commenterName: username,
-      comment: comment,
-    };
-    const response = await fetch("/api/snippets/addcomment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      throw new Error("Network Error: Failed to add a comment");
-    }
-    console.log("Comment created successfully!");
-    setComment("");
-    return response.json();
-  }
-  async function deleteComment(commentId: any) {
-    const payload = {
-      commentId: commentId,
-    };
-    const response = await fetch("/api/snippets/deletecomment", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    if (!response.ok) {
-      throw new Error("Network Error: Failed to delete a comment");
-    }
-    console.log("Comment deleted successfully!");
-    return response.json();
-  }
 
   return (
     <div className="">
       <div className="flex gap-4 items-end justify-between">
         <div className="avatar block">
-          <div className="w-12 rounded-full">
-            <Image src={`${session?.user.image}`} alt="User image" width={96} height={96} />
+          <div className="w-10 rounded-full">
+            <FaUserCircle className="w-full h-full" />
           </div>
         </div>
-        <span>{commentData?.length} Total Comments</span>
+        <span>
+          {commentData?.length} Total Comment{commentData?.length > 1 ? "s" : ""}
+        </span>
       </div>
       <div className="py-2">
         <textarea
@@ -130,7 +63,7 @@ export default function SnippetCardCommentsModal({
         onClick={() => {
           if (comment.trim() !== "") {
             setErrorMessage("");
-            createCommentMutation.mutate(event);
+            router.push("/signin");
           } else {
             return setErrorMessage("Comments cannot be left blank!");
           }
@@ -156,12 +89,14 @@ export default function SnippetCardCommentsModal({
 
       {commentData?.length && newest ? (
         commentData.map((comment: any, index: any) => {
-          const isCurrentUser = comment.commenterName === username;
+          const isFirstMessage = index === 0;
           const isSameUser = comment.commenterId === commentData[index - 1]?.commenterId;
-          const chatClass = isCurrentUser
-            ? "chat-end"
+          const chatClass = isFirstMessage
+            ? "chat-start"
             : isSameUser
             ? commentData[index - 1]?.chatClass
+            : commentData[index - 1]?.chatClass === "chat-start"
+            ? "chat-end"
             : "chat-start";
 
           comment.chatClass = chatClass;
@@ -185,27 +120,19 @@ export default function SnippetCardCommentsModal({
                 </time>
               </div>
               <div className="chat-bubble">{comment.comment}</div>
-              {comment.commenterName === username && (
-                <span
-                  className="text-xs opacity-50 hover:opacity-100 cursor-pointer"
-                  onClick={() => {
-                    deleteCommentMutation.mutate(comment.id);
-                  }}
-                >
-                  Delete
-                </span>
-              )}
             </div>
           );
         })
       ) : commentData?.length && !newest ? (
         [...commentData].reverse().map((comment: any, index: any) => {
-          const isCurrentUser = comment.commenterName === username;
+          const isFirstMessage = index === 0;
           const isSameUser = comment.commenterId === commentData[index - 1]?.commenterId;
-          const chatClass = isCurrentUser
-            ? "chat-end"
+          const chatClass = isFirstMessage
+            ? "chat-start"
             : isSameUser
             ? commentData[index - 1]?.chatClass
+            : commentData[index - 1]?.chatClass === "chat-start"
+            ? "chat-end"
             : "chat-start";
 
           comment.chatClass = chatClass;
@@ -229,16 +156,6 @@ export default function SnippetCardCommentsModal({
                 </time>
               </div>
               <div className="chat-bubble">{comment.comment}</div>
-              {comment.commenterName === username && (
-                <span
-                  className="text-xs opacity-50 hover:opacity-100 cursor-pointer"
-                  onClick={() => {
-                    deleteCommentMutation.mutate(comment.id);
-                  }}
-                >
-                  Delete
-                </span>
-              )}
             </div>
           );
         })
