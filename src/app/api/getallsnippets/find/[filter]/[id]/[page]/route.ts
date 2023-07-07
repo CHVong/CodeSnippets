@@ -28,32 +28,65 @@ export async function GET(request: Request, params: { params: session }) {
       });
     }
 
-    const totalCount = await prisma.codeSnippet.count({
-      where: {
-        posterId: id,
-      },
-    });
+    let totalCount = 0;
+
+    if (params.params.filter === "favorited") {
+      totalCount = await prisma.codeSnippet.count({
+        where: {
+          posterId: id,
+          favorites: { has: id },
+        },
+      });
+    } else {
+      totalCount = await prisma.codeSnippet.count({
+        where: {
+          posterId: id,
+        },
+      });
+    }
 
     const totalPages = Math.ceil(totalCount / itemsPerPage);
     const offset = (page - 1) * itemsPerPage;
 
-    const snippets = await prisma.codeSnippet.findMany({
-      where: {
-        posterId: id,
-      },
-      orderBy: {
-        updatedAt: filter as any,
-      },
-      include: {
-        comments: {
-          select: {
-            id: true, // Include only the 'id' field from comments
+    let snippets = [];
+
+    if (params.params.filter === "favorited") {
+      snippets = await prisma.codeSnippet.findMany({
+        where: {
+          favorites: { has: id },
+        },
+        orderBy: {
+          updatedAt: filter as any,
+        },
+        include: {
+          comments: {
+            select: {
+              id: true, // Include only the 'id' field from comments
+            },
           },
         },
-      },
-      skip: offset,
-      take: itemsPerPage,
-    });
+        skip: offset,
+        take: itemsPerPage,
+      });
+    } else {
+      snippets = await prisma.codeSnippet.findMany({
+        where: {
+          posterId: id,
+        },
+        orderBy: {
+          updatedAt: filter as any,
+        },
+        include: {
+          comments: {
+            select: {
+              id: true, // Include only the 'id' field from comments
+            },
+          },
+        },
+        skip: offset,
+        take: itemsPerPage,
+      });
+    }
 
     const snippetsWithCommentCount = snippets.map((snippet) => ({
       ...snippet,

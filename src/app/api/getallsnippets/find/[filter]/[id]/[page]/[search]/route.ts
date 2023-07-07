@@ -30,36 +30,71 @@ export async function GET(request: Request, params: { params: session }) {
       });
     }
 
-    const totalCount = await prisma.codeSnippet.count({
-      where: {
-        posterId: id,
-        OR: [{ title: { contains: search } }, { description: { contains: search } }],
-      },
-    });
+    let totalCount = 0;
+
+    if (params.params.filter === "favorited") {
+      totalCount = await prisma.codeSnippet.count({
+        where: {
+          favorites: { has: id },
+          OR: [{ title: { contains: search } }, { description: { contains: search } }],
+        },
+      });
+    } else {
+      totalCount = await prisma.codeSnippet.count({
+        where: {
+          posterId: id,
+          OR: [{ title: { contains: search } }, { description: { contains: search } }],
+        },
+      });
+    }
 
     const totalPages = Math.ceil(totalCount / itemsPerPage);
     const offset = (page - 1) * itemsPerPage;
 
-    const snippets = await prisma.codeSnippet.findMany({
-      where: {
-        posterId: id,
-        OR: [{ title: { contains: search } }, { description: { contains: search } }],
-      },
-      orderBy: {
-        updatedAt: filter as any,
-      },
-      include: {
-        comments: {
-          select: {
-            id: true, // Include only the 'id' field from comments
+    let snippets = [] as any;
+
+    if (params.params.filter === "favorited") {
+      snippets = await prisma.codeSnippet.findMany({
+        where: {
+          posterId: id,
+          favorites: { has: id },
+          OR: [{ title: { contains: search } }, { description: { contains: search } }],
+        },
+        orderBy: {
+          updatedAt: filter as any,
+        },
+        include: {
+          comments: {
+            select: {
+              id: true, // Include only the 'id' field from comments
+            },
           },
         },
-      },
-      skip: offset,
-      take: itemsPerPage,
-    });
+        skip: offset,
+        take: itemsPerPage,
+      });
+    } else {
+      snippets = await prisma.codeSnippet.findMany({
+        where: {
+          posterId: id,
+          OR: [{ title: { contains: search } }, { description: { contains: search } }],
+        },
+        orderBy: {
+          updatedAt: filter as any,
+        },
+        include: {
+          comments: {
+            select: {
+              id: true, // Include only the 'id' field from comments
+            },
+          },
+        },
+        skip: offset,
+        take: itemsPerPage,
+      });
+    }
 
-    const snippetsWithCommentCount = snippets.map((snippet) => ({
+    const snippetsWithCommentCount = snippets.map((snippet: any) => ({
       ...snippet,
       totalComments: snippet.comments.length,
     }));
