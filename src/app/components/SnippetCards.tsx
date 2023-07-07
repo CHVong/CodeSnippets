@@ -11,6 +11,7 @@ import SnippetCardExpandButton from "./SnippetCardComponents/SnippetCardExpandBu
 import SnippetCardCommentsButton from "./SnippetCardComponents/SnippetCardCommentsButton";
 import SnippetCardTitle from "./SnippetCardComponents/SnippetCardTitle";
 import SnippetCardDescription from "./SnippetCardComponents/SnippetCardDescription";
+import SnippetCardFavorites from "./SnippetCardComponents/SnippetCardFavorites";
 
 export default function SnippetCards({
   snippet,
@@ -32,10 +33,7 @@ export default function SnippetCards({
         <div className="card-body p-5">
           <div className="flex justify-between">
             <div className=" flex gap-2">
-              <button className="btn btn-outline btn-accent btn-xs">
-                <FaHeart />
-                <span>{snippet.favorites}</span>
-              </button>
+              <SnippetCardFavorites snippet={snippet} sessionId={sessionId} />
               <SnippetCardCommentsButton snippet={snippet} />
             </div>
             <SnippetCardDelete snippet={snippet} sessionId={sessionId} />

@@ -3,7 +3,13 @@ import { FaHeart } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function ExploreFavorites({ snippet, sessionId }: { snippet: any; sessionId: any }) {
+export default function SnippetCardFavorites({
+  snippet,
+  sessionId,
+}: {
+  snippet: any;
+  sessionId: any;
+}) {
   const router = useRouter();
   const queryClient = useQueryClient();
   console.log(sessionId);
