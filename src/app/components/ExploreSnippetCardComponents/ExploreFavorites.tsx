@@ -63,7 +63,7 @@ export default function ExploreFavorites({ snippet, sessionId }: { snippet: any;
       }}
     >
       <FaHeart />
-      <span>{snippet.favorites}</span>
+      <span>{snippet.favorites.length}</span>
     </button>
   );
 }

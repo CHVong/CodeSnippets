@@ -53,30 +53,36 @@ export default function SnippetCardSetLanguage({
   }
   return (
     <div>
-      <select
-        className="select select-bordered select-xs w-full max-w-xs"
-        defaultValue={""}
-        onChange={(event) => {
-          updateLanguageMutation.mutate({
-            snippetId: snippet.id,
-            language: event.target.value,
-          });
-        }}
-      >
-        <option value="" disabled>
+      {sessionId === snippet.posterId ? (
+        <select
+          className="select select-bordered select-xs w-full max-w-xs"
+          defaultValue={""}
+          onChange={(event) => {
+            updateLanguageMutation.mutate({
+              snippetId: snippet.id,
+              language: event.target.value,
+            });
+          }}
+        >
+          <option value="" disabled>
+            {languageFullName[snippet.language as string]}
+          </option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="js">Javascript</option>
+          <option value="java">Java</option>
+          <option value="python">Python</option>
+          <option value="php">PHP</option>
+          <option value="c">C</option>
+          <option value="cpp">C++</option>
+          <option value="csharp">C#</option>
+          <option value="markup">Other</option>
+        </select>
+      ) : (
+        <div className="badge badge-outline font-bold">
           {languageFullName[snippet.language as string]}
-        </option>
-        <option value="html">HTML</option>
-        <option value="css">CSS</option>
-        <option value="js">Javascript</option>
-        <option value="java">Java</option>
-        <option value="python">Python</option>
-        <option value="php">PHP</option>
-        <option value="c">C</option>
-        <option value="cpp">C++</option>
-        <option value="csharp">C#</option>
-        <option value="markup">Other</option>
-      </select>
+        </div>
+      )}
     </div>
   );
 }

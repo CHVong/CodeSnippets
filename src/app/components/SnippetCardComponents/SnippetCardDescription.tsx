@@ -56,47 +56,53 @@ export default function SnippetCardDescription({
   }
 
   return (
-    <div className="relative w-full">
-      {updateDescriptionMutation.isLoading ? (
-        <span className="loading loading-spinner loading-xs"></span>
-      ) : showEdit ? (
-        <>
-          <textarea
-            className="textarea textarea-primary scrollbar textarea-sm w-full max-w-xs"
-            placeholder="Description..."
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          ></textarea>
+    <>
+      {sessionId === snippet.posterId ? (
+        <div className="relative w-full">
+          {updateDescriptionMutation.isLoading ? (
+            <span className="loading loading-spinner loading-xs"></span>
+          ) : showEdit ? (
+            <>
+              <textarea
+                className="textarea textarea-primary scrollbar textarea-sm w-full max-w-xs"
+                placeholder="Description..."
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+              ></textarea>
 
-          <div className="w-max ml-auto flex gap-1">
-            <button
-              className="btn btn-outline btn-success btn-xs"
-              onClick={() => {
-                updateDescriptionMutation.mutate({
-                  snippetId: snippet.id,
-                  description: description,
-                });
-                setShowEdit(!showEdit);
-              }}
-            >
-              <FaSave />
-            </button>
-            <button
-              className="btn btn-outline btn-neutral btn-xs"
-              onClick={() => setShowEdit(!showEdit)}
-            >
-              <FaUndo />
-            </button>
-          </div>
-        </>
+              <div className="w-max ml-auto flex gap-1">
+                <button
+                  className="btn btn-outline btn-success btn-xs"
+                  onClick={() => {
+                    updateDescriptionMutation.mutate({
+                      snippetId: snippet.id,
+                      description: description,
+                    });
+                    setShowEdit(!showEdit);
+                  }}
+                >
+                  <FaSave />
+                </button>
+                <button
+                  className="btn btn-outline btn-neutral btn-xs"
+                  onClick={() => setShowEdit(!showEdit)}
+                >
+                  <FaUndo />
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              {snippet.description}
+              <button className="btn btn-ghost btn-xs" onClick={() => setShowEdit(!showEdit)}>
+                <FaPen />
+              </button>
+            </>
+          )}
+        </div>
       ) : (
-        <>
-          {snippet.description}
-          <button className="btn btn-ghost btn-xs" onClick={() => setShowEdit(!showEdit)}>
-            <FaPen />
-          </button>
-        </>
+        snippet.description
       )}
-    </div>
+    </>
   );
 }

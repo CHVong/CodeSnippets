@@ -36,46 +36,50 @@ export default function SnippetCardDelete({
 
   return (
     <>
-      {showConfirmDelete ? (
-        <>
-          {deleteMutation.isLoading || deleteMutation.isSuccess ? (
-            <span className="loading loading-spinner text-primary"></span>
-          ) : (
-            <div className="flex gap-1">
-              <div className="tooltip tooltip-top" data-tip={"Confirm"}>
-                <button
-                  className="btn btn-outline btn-success btn-xs"
-                  onClick={(prev) => {
-                    deleteMutation.mutate(snippet.id);
-                  }}
-                >
-                  <FaCheck />
-                </button>
+      {sessionId === snippet.posterId ? (
+        showConfirmDelete ? (
+          <>
+            {deleteMutation.isLoading || deleteMutation.isSuccess ? (
+              <span className="loading loading-spinner text-primary"></span>
+            ) : (
+              <div className="flex gap-1">
+                <div className="tooltip tooltip-top" data-tip={"Confirm"}>
+                  <button
+                    className="btn btn-outline btn-success btn-xs"
+                    onClick={(prev) => {
+                      deleteMutation.mutate(snippet.id);
+                    }}
+                  >
+                    <FaCheck />
+                  </button>
+                </div>
+                <div className="tooltip tooltip-top" data-tip={"Back"}>
+                  <button
+                    className="btn btn-outline btn-neutral btn-xs"
+                    onClick={() => {
+                      setShowConfirmDelete(!showConfirmDelete);
+                    }}
+                  >
+                    <FaUndo />
+                  </button>
+                </div>
               </div>
-              <div className="tooltip tooltip-top" data-tip={"Back"}>
-                <button
-                  className="btn btn-outline btn-neutral btn-xs"
-                  onClick={() => {
-                    setShowConfirmDelete(!showConfirmDelete);
-                  }}
-                >
-                  <FaUndo />
-                </button>
-              </div>
-            </div>
-          )}
-        </>
+            )}
+          </>
+        ) : (
+          <div className="tooltip tooltip-left" data-tip={"Delete"}>
+            <button
+              className="btn btn-outline btn-error btn-xs "
+              onClick={() => {
+                setShowConfirmDelete(!showConfirmDelete);
+              }}
+            >
+              <FaTrash />
+            </button>
+          </div>
+        )
       ) : (
-        <div className="tooltip tooltip-left" data-tip={"Delete"}>
-          <button
-            className="btn btn-outline btn-error btn-xs "
-            onClick={() => {
-              setShowConfirmDelete(!showConfirmDelete);
-            }}
-          >
-            <FaTrash />
-          </button>
-        </div>
+        ""
       )}
     </>
   );

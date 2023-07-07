@@ -44,27 +44,31 @@ export default function SnippetCardPublicandPrivate({
 
   return (
     <div className="flex gap-2">
-      <div
-        className={`tooltip tooltip-left flex gap-2 items-center`}
-        data-tip={`${snippet.isPublic ? "Public" : "Private"} `}
-      >
-        {snippet.isPublic ? (
-          <FaUnlock className="text-neutral" />
-        ) : (
-          <FaLock className="text-neutral" />
-        )}
-        <input
-          type="checkbox"
-          className="toggle toggle-primary toggle-sm"
-          defaultChecked={snippet.isPublic}
-          onClick={() => {
-            updatePublicMutation.mutate({
-              snippetId: snippet.id,
-              isPublic: snippet.isPublic,
-            });
-          }}
-        />
-      </div>
+      {sessionId === snippet.posterId ? (
+        <div
+          className={`tooltip tooltip-left flex gap-2 items-center`}
+          data-tip={`${snippet.isPublic ? "Public" : "Private"} `}
+        >
+          {snippet.isPublic ? (
+            <FaUnlock className="text-neutral" />
+          ) : (
+            <FaLock className="text-neutral" />
+          )}
+          <input
+            type="checkbox"
+            className="toggle toggle-primary toggle-sm"
+            defaultChecked={snippet.isPublic}
+            onClick={() => {
+              updatePublicMutation.mutate({
+                snippetId: snippet.id,
+                isPublic: snippet.isPublic,
+              });
+            }}
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

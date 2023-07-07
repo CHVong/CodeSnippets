@@ -26,13 +26,18 @@ export async function GET(request: Request, params: { params: session }) {
     if (id) {
       totalCount = await prisma.codeSnippet.count({
         where: {
+          isPublic: true,
           NOT: {
             posterId: id,
           },
         },
       });
     } else {
-      totalCount = await prisma.codeSnippet.count();
+      totalCount = await prisma.codeSnippet.count({
+        where: {
+          isPublic: true,
+        },
+      });
     }
 
     const totalPages = Math.ceil(totalCount / itemsPerPage);
@@ -43,6 +48,7 @@ export async function GET(request: Request, params: { params: session }) {
     if (id) {
       snippets = await prisma.codeSnippet.findMany({
         where: {
+          isPublic: true,
           NOT: {
             posterId: id,
           },
@@ -62,6 +68,9 @@ export async function GET(request: Request, params: { params: session }) {
       });
     } else {
       snippets = await prisma.codeSnippet.findMany({
+        where: {
+          isPublic: true,
+        },
         orderBy: {
           updatedAt: filter as any,
         },
