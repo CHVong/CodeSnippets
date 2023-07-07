@@ -78,7 +78,7 @@ export default function MySnippetsComponent() {
           Search
         </button>
       </div>
-      <div className="tabs pb-6 animate-fadeIn relative">
+      <div className="tabs pb-6 animate-fadeIn relative justify-center">
         <a
           className={`tab tab-bordered ${activeTab === "newest" && "tab-active animate-fadeIn"}`}
           onClick={() => {

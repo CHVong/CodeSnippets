@@ -102,6 +102,29 @@ export async function GET(request: Request, params: { params: session }) {
       nextPage = page + 1;
     }
 
+    const countFavorites = (snippet: any) => {
+      return snippet.favorites.length;
+    };
+
+    if (params.params.filter === "mostfavorited") {
+      snippetsWithCommentCount.sort((a, b) => {
+        const countA = countFavorites(a);
+        const countB = countFavorites(b);
+        return countB - countA;
+      });
+    }
+
+    const countComments = (snippet: any) => {
+      return snippet.totalComments;
+    };
+    if (params.params.filter === "mostcommented") {
+      snippetsWithCommentCount.sort((a, b) => {
+        const countA = countComments(a);
+        const countB = countComments(b);
+        return countB - countA;
+      });
+    }
+
     return new Response(
       JSON.stringify({
         snippets: snippetsWithCommentCount,

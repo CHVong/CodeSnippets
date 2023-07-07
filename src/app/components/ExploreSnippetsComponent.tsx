@@ -79,7 +79,7 @@ export default function ExploreSnippetsComponent() {
           Search
         </button>
       </div>
-      <div className="tabs pb-6 animate-fadeIn relative">
+      <div className="tabs pb-6 animate-fadeIn relative justify-center">
         <a
           className={`tab tab-bordered ${activeTab === "newest" && "tab-active animate-fadeIn"}`}
           onClick={() => {
@@ -95,6 +95,26 @@ export default function ExploreSnippetsComponent() {
           }}
         >
           Oldest
+        </a>
+        <a
+          className={`tab tab-bordered ${
+            activeTab === "mostfavorited" && "tab-active animate-fadeIn"
+          }`}
+          onClick={() => {
+            setActiveTab("mostfavorited");
+          }}
+        >
+          Most Favorited
+        </a>
+        <a
+          className={`tab tab-bordered ${
+            activeTab === "mostcommented" && "tab-active animate-fadeIn"
+          }`}
+          onClick={() => {
+            setActiveTab("mostcommented");
+          }}
+        >
+          Most Commented
         </a>
         {/* <a
           className={`tab tab-bordered ${activeTab === "favorited" && "tab-active animate-fadeIn"}`}
