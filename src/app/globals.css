@@ -45,11 +45,40 @@ body {
   scrollbar-width: thin;
 }
 
+/* CODE PREVIEWS */
+
 pre[class*="language-"] {
   margin: 0 !important;
   padding-top: 2.5rem !important;
 }
 
+/* SNIPPET PAGE */
+
 .column-span {
   column-span: all;
+}
+
+/* EDITOR */
+
+.editor {
+  counter-reset: line;
+  border: 1px solid #ced4da;
+}
+
+.editor #codeArea {
+  outline: none;
+  padding-left: 60px !important;
+}
+
+.editor pre {
+  padding-left: 60px !important;
+}
+
+.editor .editorLineNumber {
+  position: absolute;
+  left: 0px;
+  color: #cccccc;
+  text-align: right;
+  width: 40px;
+  font-weight: 100;
 }

@@ -15,9 +15,14 @@ import "prismjs/components/prism-c";
 import "prismjs/components/prism-cpp";
 import "prismjs/components/prism-csharp";
 
+const hightlightWithLineNumbers = (input: any, language: any, codelanguage: any) =>
+  highlight(input, language, codelanguage)
+    .split("\n")
+    .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
+    .join(" \n");
 export default function BrowserEditor() {
   const [code, setCode] = React.useState(
-    `//Select language for syntax highlighting. \n//Enter your codes here! \n\nfunction add(a, b) {\n  return a + b;\n}`
+    `//Select language for syntax highlighting.\n//Enter your codes here!\n\nfunction add(a, b) {\n  return a + b;\n}`
   );
 
   const [codeLanguage, setCodeLanguage] = React.useState("markup");
@@ -50,15 +55,18 @@ export default function BrowserEditor() {
           setCode(code);
           console.log(code);
         }}
-        highlight={(code) => highlight(code, Prism.languages[codeLanguage], `${codeLanguage}`)}
+        highlight={(code) =>
+          hightlightWithLineNumbers(code, Prism.languages[codeLanguage], `${codeLanguage}`)
+        }
         padding={10}
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
           fontSize: 16,
         }}
-        className="bg-blue-100 dark:bg-slate-800 border-2 border-black rounded-md"
+        className="bg-slate-800 dark:bg-slate-800 border-2 border-black rounded-md text-neutral-400 editor"
         name="snippet"
         required
+        textareaId="codeArea"
       />
     </div>
   );
