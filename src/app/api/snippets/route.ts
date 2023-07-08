@@ -3,7 +3,7 @@ import { prisma } from "../../../../prisma/client";
 
 export async function POST(request: Request) {
   try {
-    const { isPublic, title, description, language, snippet, posterId }: Snippet =
+    const { isPublic, title, description, language, snippet, posterId, posterName }: Snippet =
       await request.json();
     const myBoolean = JSON.parse(isPublic.toString());
 
@@ -19,6 +19,7 @@ export async function POST(request: Request) {
         language,
         snippet,
         posterId,
+        posterName,
       },
     });
     return new Response(JSON.stringify(newSnippet), { status: 200 });

@@ -18,6 +18,8 @@ export default function NewSnippetForm() {
     setIsPublic(event.target.checked);
   };
 
+  const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
+
   async function submitCode(event: any) {
     event.preventDefault();
     const form = event.target;
@@ -25,6 +27,7 @@ export default function NewSnippetForm() {
     const payload = Object.fromEntries(formData);
     payload.posterId = session?.token?.sub || null;
     payload.isPublic = isPublic.toString();
+    payload.posterName = username;
 
     const response = await fetch("/api/snippets", {
       method: "POST",

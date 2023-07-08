@@ -50,10 +50,7 @@ export default function SnippetCards({
             <SnippetCardSetLanguage snippet={snippet} sessionId={sessionId} />
             <SnippetCardPublicandPrivate snippet={snippet} sessionId={sessionId} />
           </div>
-          <SnippetCardCreatedandUpdated
-            createdAt={snippet.createdAt}
-            updatedAt={snippet.updatedAt}
-          />
+          <SnippetCardCreatedandUpdated snippet={snippet} sessionId={sessionId} />
         </div>
       </div>
     </section>

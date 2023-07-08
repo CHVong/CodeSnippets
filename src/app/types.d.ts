@@ -7,6 +7,7 @@ type Snippet = {
   snippet: string;
   posterId: string;
   favorites: string[];
+  posterName: string;
   createdAt: ReactNode;
   updatedAt: ReactNode;
 };

@@ -9,6 +9,7 @@ import ExploreLanguage from "./ExploreSnippetCardComponents/ExploreLanguage";
 import ExploreCommentButtonLoggedIn from "./ExploreSnippetCardComponents/ExploreCommentButton";
 import ExploreCommentButtonGuest from "./ExploreSnippetCardComponents/ExploreCommentButtonGuest";
 import ExploreFavorites from "./ExploreSnippetCardComponents/ExploreFavorites";
+import ExploreCreatedBy from "./ExploreSnippetCardComponents/ExploreCreatedBy";
 
 export default function ExploreSnippetCards({
   snippet,
@@ -43,8 +44,9 @@ export default function ExploreSnippetCards({
           <h2 className="card-title">{snippet.title}</h2>
           <h3 className="">{snippet.description}</h3>
 
-          <div className="card-actions justify-end items-center">
+          <div className="card-actions justify-between items-center">
             <ExploreCreatedandUpdated createdAt={snippet.createdAt} />
+            <ExploreCreatedBy posterName={snippet?.posterName} />
           </div>
         </div>
       </div>
