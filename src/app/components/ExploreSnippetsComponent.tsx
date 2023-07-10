@@ -116,6 +116,18 @@ export default function ExploreSnippetsComponent() {
         >
           Most Commented
         </a>
+        <a
+          className={`tab tab-bordered ${activeTab === "random" && "tab-active animate-fadeIn"}`}
+          onClick={() => {
+            if (activeTab === "random") {
+              refetch();
+            } else {
+              setActiveTab("random");
+            }
+          }}
+        >
+          Random
+        </a>
         {/* <a
           className={`tab tab-bordered ${activeTab === "favorited" && "tab-active animate-fadeIn"}`}
           onClick={() => setActiveTab("favorited")}

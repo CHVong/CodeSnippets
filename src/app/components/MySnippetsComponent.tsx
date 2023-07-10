@@ -96,10 +96,30 @@ export default function MySnippetsComponent() {
           Oldest
         </a>
         <a
+          className={`tab tab-bordered ${
+            activeTab === "mostfavorited" && "tab-active animate-fadeIn"
+          }`}
+          onClick={() => {
+            setActiveTab("mostfavorited");
+          }}
+        >
+          Most Favorited
+        </a>
+        <a
+          className={`tab tab-bordered ${
+            activeTab === "mostcommented" && "tab-active animate-fadeIn"
+          }`}
+          onClick={() => {
+            setActiveTab("mostcommented");
+          }}
+        >
+          Most Commented
+        </a>
+        <a
           className={`tab tab-bordered ${activeTab === "favorited" && "tab-active animate-fadeIn"}`}
           onClick={() => setActiveTab("favorited")}
         >
-          Favorited
+          My Favorites
         </a>
         {isFetching && (
           <span className="loading loading-spinner loading-sm absolute top-3/4 right-1/2"></span>

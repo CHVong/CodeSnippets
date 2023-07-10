@@ -86,7 +86,7 @@ export async function GET(request: Request, params: { params: session }) {
       });
     }
 
-    const snippetsWithCommentCount = snippets.map((snippet) => ({
+    let snippetsWithCommentCount = snippets.map((snippet) => ({
       ...snippet,
       totalComments: snippet.comments.length,
     }));
@@ -105,7 +105,6 @@ export async function GET(request: Request, params: { params: session }) {
     const countFavorites = (snippet: any) => {
       return snippet.favorites.length;
     };
-
     if (params.params.filter === "mostfavorited") {
       snippetsWithCommentCount.sort((a, b) => {
         const countA = countFavorites(a);
@@ -123,6 +122,18 @@ export async function GET(request: Request, params: { params: session }) {
         const countB = countComments(b);
         return countB - countA;
       });
+    }
+
+    const randomize = (snippet: any) => {
+      for (let i = snippet.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [snippet[i], snippet[j]] = [snippet[j], snippet[i]];
+      }
+      return snippet;
+    };
+
+    if (params.params.filter === "random") {
+      snippetsWithCommentCount = randomize(snippetsWithCommentCount);
     }
 
     return new Response(
