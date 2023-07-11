@@ -11,6 +11,7 @@ declare module "next-auth" {
       address: string;
       id: string | undefined;
       name: string;
+      email: string;
     };
     token: JWT;
   }
