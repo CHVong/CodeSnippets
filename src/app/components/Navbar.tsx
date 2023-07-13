@@ -28,9 +28,6 @@ export default function Navbar() {
   const publicNavLinks = [
     { name: "About", href: "/about" },
     { name: "Explore", href: "/explore" },
-    { name: "Profile", href: "/profile" },
-    { name: "Protect", href: "/protect" },
-    { name: "Snippets", href: "/snippets" },
     { name: "Sign In", href: "/signin" },
   ];
   const privateNavLinks = [
