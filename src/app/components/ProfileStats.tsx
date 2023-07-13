@@ -3,12 +3,26 @@ import { useEffect, useState } from "react";
 import { FaCode, FaStream, FaGlobeAmericas, FaHeart, FaComment, FaFireAlt } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 
+const languageFullName: { [key: string]: string } = {
+  markup: "Other",
+  js: "Javascript",
+  java: "Java",
+  python: "Python",
+  php: "PHP",
+  c: "C",
+  cpp: "C++",
+  csharp: "C#",
+  css: "CSS",
+  html: "HTML",
+};
+
 type stats = {
   totalSnippets: number;
   totalComments: number;
   favorited: number;
   totalLines: number;
   publicSnippets: number;
+  mostPopularLanguage: string;
 };
 
 export default function ProfileStats({ sessionId }: { sessionId: string }) {
@@ -31,7 +45,11 @@ export default function ProfileStats({ sessionId }: { sessionId: string }) {
   }, []);
 
   if (isLoading) {
-    return <span className="loading loading-bars loading-lg bg-primary"></span>;
+    return (
+      <div className="p-6">
+        <span className="loading loading-bars loading-lg bg-primary"></span>
+      </div>
+    );
   }
 
   return (
@@ -89,9 +107,11 @@ export default function ProfileStats({ sessionId }: { sessionId: string }) {
             <div className="stat-figure text-primary">
               <FaFireAlt className="text-2xl" />
             </div>
-            <div className="stat-title">Most</div>
-            <div className="stat-value">{data?.publicSnippets}</div>
-            <div className="stat-desc">popular language</div>
+            <div className="stat-title">Coded with</div>
+            <div className={`stat-value ${data.mostPopularLanguage.length > 1 ? "text-lg" : ""}`}>
+              {data.mostPopularLanguage.map((e: any) => languageFullName[e]).join(", ")}
+            </div>
+            <div className="stat-desc">most often</div>
           </div>
         </div>
       </div>

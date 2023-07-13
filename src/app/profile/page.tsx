@@ -25,10 +25,10 @@ export default async function Profile() {
 
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
   return (
-    <main className="flex flex-col items-center justify-center gap-8 animate-fadeIn">
+    <main className="flex flex-col items-center justify-center gap-8 animate-fadeIn p-4">
       <PageTitle title={"Profile"} />
 
-      <ul className="menu bg-base-200 w-min rounded-box">
+      <ul className="menu bg-base-200 w-full md:w-3/4 lg:w-max rounded-box items-center">
         <div className="dropdown dropdown-bottom dropdown-end self-end tooltip" data-tip="Settings">
           <label tabIndex={0} className="btn btn-sm m-1">
             <FaCog />
@@ -50,27 +50,30 @@ export default async function Profile() {
             <Image src={session?.user?.image!} width={500} height={500} alt="profile pic" />
           </div>
         </div>
-        <li>
-          <a className="tooltip flex !cursor-default" data-tip="Email">
-            <FaEnvelope />
-            {session?.user?.email}
-          </a>
-        </li>
-        <li>
-          <a className="tooltip flex !cursor-default" data-tip="Username">
-            <FaUser />
-            {username}
-          </a>
-        </li>
-        <li>
-          <a className="tooltip flex !cursor-default" data-tip="Date Created">
-            <FaClock />
-            {moment(User?.createdAt).format("MMM DD, YYYY")}
-          </a>
-        </li>
-      </ul>
 
-      <ProfileStats sessionId={session?.token?.sub} />
+        <div>
+          <li>
+            <a className="tooltip flex !cursor-default" data-tip="Email">
+              <FaEnvelope />
+              {session?.user?.email}
+            </a>
+          </li>
+          <li>
+            <a className="tooltip flex !cursor-default" data-tip="Username">
+              <FaUser />
+              {username}
+            </a>
+          </li>
+          <li>
+            <a className="tooltip flex !cursor-default" data-tip="Date Created">
+              <FaClock />
+              {moment(User?.createdAt).format("MMM DD, YYYY")}
+            </a>
+          </li>
+        </div>
+
+        <ProfileStats sessionId={session?.token?.sub} />
+      </ul>
     </main>
   );
 }
