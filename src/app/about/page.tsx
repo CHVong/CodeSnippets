@@ -161,8 +161,55 @@ export default function About() {
             </div>
             <div className="collapse-content">
               <p>
-                This site was built using React-NextJS, styled with Tailwind-DaisyUI, and managed
-                with a PostgreSQL database.
+                This site was built using{" "}
+                <Link
+                  href={"https://react.dev/"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  React
+                </Link>
+                -
+                <Link
+                  href={"https://nextjs.org/"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  NextJS
+                </Link>{" "}
+                with{" "}
+                <Link
+                  href={"https://www.typescriptlang.org/"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  TypeScript
+                </Link>
+                , styled with{" "}
+                <Link
+                  href={"https://tailwindcss.com/"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  TailwindCSS
+                </Link>
+                -
+                <Link
+                  href={"https://daisyui.com/"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  DaisyUI
+                </Link>
+                , and managed with a{" "}
+                <Link
+                  href={"https://www.postgresql.org/"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  PostgreSQL
+                </Link>
+                database.
               </p>
             </div>
           </div>
@@ -174,7 +221,7 @@ export default function About() {
             <div className="collapse-content">
               <p>
                 Yes! You can find the Github link{" "}
-                <Link href={"/#"} className="text-blue-500 underline">
+                <Link href={"/#"} target="_blank" className="text-blue-500 underline">
                   HERE
                 </Link>
               </p>
@@ -189,7 +236,7 @@ export default function About() {
               <p>
                 Bugs, suggestions, and contributions of any kind are welcomed. You can create a
                 Github issue{" "}
-                <Link href={"/#"} className="text-blue-500 underline">
+                <Link href={"/#"} target="_blank" className="text-blue-500 underline">
                   HERE
                 </Link>
               </p>
