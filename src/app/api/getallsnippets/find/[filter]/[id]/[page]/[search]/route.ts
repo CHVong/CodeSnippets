@@ -56,7 +56,6 @@ export async function GET(request: Request, params: { params: session }) {
     if (params.params.filter === "favorited") {
       snippets = await prisma.codeSnippet.findMany({
         where: {
-          posterId: id,
           favorites: { has: id },
           OR: [{ title: { contains: search } }, { description: { contains: search } }],
         },
