@@ -1,12 +1,13 @@
 import PageTitle from "../components/PageTitle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
-import { User } from "../components/User";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { FaEnvelope, FaUser, FaClock, FaCog, FaExclamationTriangle } from "react-icons/fa";
 import { prisma } from "../../../prisma/client";
 import moment from "moment";
+import ProfileStats from "../components/ProfileStats";
+
 export const metadata = {
   title: "Code Snippets | Profile",
 };
@@ -22,8 +23,6 @@ export default async function Profile() {
     },
   });
 
-  console.log(User);
-  console.log(session);
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
   return (
     <main className="flex flex-col items-center justify-center gap-8 animate-fadeIn">
@@ -71,44 +70,7 @@ export default async function Profile() {
         </li>
       </ul>
 
-      <div className="stats stats-vertical lg:stats-horizontal shadow">
-        <div className="stat">
-          <div className="stat-title">Downloads</div>
-          <div className="stat-value">31K</div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-title">New Users</div>
-          <div className="stat-value">4,200</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-title">New Registers</div>
-          <div className="stat-value">1,200</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
-        </div>
-      </div>
-      <div className="stats stats-vertical lg:stats-horizontal shadow">
-        <div className="stat">
-          <div className="stat-title">Downloads</div>
-          <div className="stat-value">31K</div>
-          <div className="stat-desc">Jan 1st - Feb 1st</div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-title">New Users</div>
-          <div className="stat-value">4,200</div>
-          <div className="stat-desc">↗︎ 400 (22%)</div>
-        </div>
-
-        <div className="stat">
-          <div className="stat-title">New Registers</div>
-          <div className="stat-value">1,200</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
-        </div>
-      </div>
+      <ProfileStats sessionId={session?.token?.sub} />
     </main>
   );
 }
