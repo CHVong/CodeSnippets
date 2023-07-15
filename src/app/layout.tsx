@@ -12,7 +12,7 @@ export const metadata = {
   title: "Code Snippets",
   description: "An application to help developers store and retrieve code snippets.",
   icons: {
-    icon: "logo.svg",
+    icon: "/logo.svg",
   },
 };
 
