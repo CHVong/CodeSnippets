@@ -108,7 +108,15 @@ export default function ProfileStats({ sessionId }: { sessionId: string }) {
               <FaFireAlt className="text-2xl" />
             </div>
             <div className="stat-title">Coded with</div>
-            <div className={`stat-value ${data.mostPopularLanguage.length > 1 ? "text-lg" : ""}`}>
+            <div
+              className={`stat-value ${
+                data.mostPopularLanguage.length > 2
+                  ? "text-sm"
+                  : data.mostPopularLanguage.length > 1
+                  ? "text-lg"
+                  : ""
+              }`}
+            >
               {data.mostPopularLanguage.map((e: any) => languageFullName[e]).join(", ")}
             </div>
             <div className="stat-desc">most often</div>
