@@ -78,7 +78,7 @@ export default function ProfileStats({ sessionId }: { sessionId: string }) {
             <div className="stat-figure text-primary">
               <FaGlobeAmericas className="text-2xl" />
             </div>
-            <div className="stat-title">Shared</div>
+            <div className="stat-title">Sharing</div>
             <div className="stat-value">{data?.publicSnippets}</div>
             <div className="stat-desc">public snippets</div>
           </div>

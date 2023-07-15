@@ -62,7 +62,7 @@ export default function Navbar() {
       <div>
         <Link href={"/"}>
           <Image
-            src={"logo.svg"}
+            src={"/logo.svg"}
             height={50}
             width={50}
             alt="Navigation Logo Image"

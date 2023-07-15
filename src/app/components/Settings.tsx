@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { FaCog, FaExclamationTriangle, FaUndo } from "react-icons/fa";
+import { signOut } from "next-auth/react";
 
-export default function Settings() {
+export default async function Settings() {
   const router = useRouter();
   return (
     <div className="dropdown dropdown-bottom dropdown-end self-end tooltip" data-tip="Settings">
@@ -39,9 +40,9 @@ export default function Settings() {
           <div className="flex gap-2 justify-center">
             <div
               className="btn btn-outline btn-error"
-              onClick={() => {
+              onClick={async () => {
                 console.log("hello");
-                router.push("/");
+                router.push((await signOut({ redirect: false, callbackUrl: "/" })).url);
               }}
             >
               <FaExclamationTriangle />
