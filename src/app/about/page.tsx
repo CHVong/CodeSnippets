@@ -39,7 +39,7 @@ export default function About() {
                 </Link>
                 <Image
                   src={
-                    "https://res.cloudinary.com/dq9umvpmv/image/upload/f_auto,q_auto/v1/CodeSnippets/SignInPage"
+                    "https://res.cloudinary.com/dq9umvpmv/image/upload/f_auto,q_auto/v1/CodeSnippets/SignInPage2"
                   }
                   alt="Sign In Page"
                   height={500}
