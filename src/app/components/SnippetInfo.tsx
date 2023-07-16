@@ -9,6 +9,7 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import SnippetCardExpandButton from "./SnippetCardComponents/SnippetCardExpandButton";
 import SnippetInfoExpandButton from "./SnippetInfoExpandButton";
+import Link from "next/link";
 
 export default function SnippetInfo({ param, session }: { param: string; session: Session }) {
   const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
@@ -57,7 +58,11 @@ export default function SnippetInfo({ param, session }: { param: string; session
       </figure>
       <div className="card-body w-full lg:max-w-lg scrollbar overflow-auto h-full">
         <div className="text-xs text-gray-400 text-end">
-          Created by {data.posterName} on {moment(data.createdAt).format("MMM DD, YYYY")}
+          Created by{" "}
+          <Link href={`${window.location.origin}/profile/${data.posterId}`} className="underline">
+            {data.posterName}
+          </Link>{" "}
+          on {moment(data.createdAt).format("MMM DD, YYYY")}
         </div>
         <h2 className="card-title">{data?.title}</h2>
         <p>{data?.description}</p>

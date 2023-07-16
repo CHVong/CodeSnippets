@@ -48,7 +48,7 @@ export default function ExploreSnippetCards({
 
           <div className="card-actions justify-between items-center">
             <ExploreCreatedandUpdated createdAt={snippet.createdAt} />
-            <ExploreCreatedBy posterName={snippet?.posterName} />
+            <ExploreCreatedBy posterName={snippet?.posterName} posterId={snippet.posterId} />
           </div>
         </div>
       </div>

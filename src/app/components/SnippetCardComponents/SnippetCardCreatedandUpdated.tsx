@@ -1,4 +1,5 @@
 import moment, { MomentInput } from "moment";
+import Link from "next/link";
 
 type props = {
   snippet: any;
@@ -13,7 +14,15 @@ export default function SnippetCardCreatedandUpdated({ snippet, sessionId }: pro
       {sessionId === snippet.posterId ? (
         <span>Updated {moment(snippet.updatedAt).fromNow()}</span>
       ) : (
-        <span>By {snippet.posterName}</span>
+        <span>
+          By{" "}
+          <Link
+            href={`${window.location.origin}/profile/${snippet.posterId}`}
+            className="underline"
+          >
+            {snippet.posterName}
+          </Link>
+        </span>
       )}
     </div>
   );
