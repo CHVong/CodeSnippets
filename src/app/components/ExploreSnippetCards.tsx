@@ -10,6 +10,7 @@ import ExploreCommentButtonLoggedIn from "./ExploreSnippetCardComponents/Explore
 import ExploreCommentButtonGuest from "./ExploreSnippetCardComponents/ExploreCommentButtonGuest";
 import ExploreFavorites from "./ExploreSnippetCardComponents/ExploreFavorites";
 import ExploreCreatedBy from "./ExploreSnippetCardComponents/ExploreCreatedBy";
+import SnippetCardCopyLinkButton from "./SnippetCardComponents/SnippetCardCopyLinkButton";
 
 export default function ExploreSnippetCards({
   snippet,
@@ -24,6 +25,7 @@ export default function ExploreSnippetCards({
         <figure className="relative">
           <CodeFormat code={snippet.snippet} language={snippet.language} />
           <div className="absolute top-0 right-0 m-4 flex gap-2">
+            <SnippetCardCopyLinkButton snippet={snippet} />
             <SnippetCardCopyButton snippet={snippet} />
             <SnippetCardExpandButton snippet={snippet} />
           </div>

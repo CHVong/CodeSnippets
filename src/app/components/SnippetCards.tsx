@@ -12,6 +12,7 @@ import SnippetCardCommentsButton from "./SnippetCardComponents/SnippetCardCommen
 import SnippetCardTitle from "./SnippetCardComponents/SnippetCardTitle";
 import SnippetCardDescription from "./SnippetCardComponents/SnippetCardDescription";
 import SnippetCardFavorites from "./SnippetCardComponents/SnippetCardFavorites";
+import SnippetCardCopyLinkButton from "./SnippetCardComponents/SnippetCardCopyLinkButton";
 
 export default function SnippetCards({
   snippet,
@@ -26,6 +27,7 @@ export default function SnippetCards({
         <figure className="relative">
           <CodeFormat code={snippet.snippet} language={snippet.language} />
           <div className="absolute top-0 right-0 m-4 flex gap-2">
+            <SnippetCardCopyLinkButton snippet={snippet} />
             <SnippetCardCopyButton snippet={snippet} />
             <SnippetCardExpandButton snippet={snippet} />
           </div>

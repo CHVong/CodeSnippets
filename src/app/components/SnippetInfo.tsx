@@ -56,33 +56,8 @@ export default function SnippetInfo({ param, session }: { param: string; session
         <SnippetInfoCode code={data?.snippet!} language={data?.language!} snippet={data} />
       </figure>
       <div className="card-body w-full lg:max-w-lg scrollbar overflow-auto h-full">
-        <div className="flex items-center justify-end gap-1">
-          <button className="btn btn-accent no-animation btn-xs cursor-default">
-            <FaHeart />
-            <span>{data.favorites.length}</span>
-          </button>
-          <button className="btn btn-primary no-animation btn-xs cursor-default">
-            <span>{languageFullName[data.language as string]}</span>
-          </button>
-
-          {data.isPublic ? (
-            <>
-              <button className="btn btn-success no-animation btn-xs cursor-default">
-                <FaUnlock />
-                <span>Public</span>
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="btn btn-error no-animation btn-xs cursor-default">
-                <FaLock />
-                <span>Private</span>
-              </button>
-            </>
-          )}
-        </div>
         <div className="text-xs text-gray-400 text-end">
-          Created By: {data.posterName} on {moment(data.createdAt).format("MMM DD, YYYY")}
+          Created by {data.posterName} on {moment(data.createdAt).format("MMM DD, YYYY")}
         </div>
         <h2 className="card-title">{data?.title}</h2>
         <p>{data?.description}</p>
@@ -91,7 +66,6 @@ export default function SnippetInfo({ param, session }: { param: string; session
           <p className="text-center font-bold underline">
             {data.totalComments} Total Comment{data.totalComments > 1 ? "s" : ""}
           </p>
-
           {data.comments.map((comment: any, index: any) => {
             const isCurrentUser = comment.commenterName === username;
             const isSameUser = comment.commenterId === data.comments[index - 1]?.commenterId;
@@ -124,7 +98,32 @@ export default function SnippetInfo({ param, session }: { param: string; session
                 <div className="chat-bubble">{comment.comment}</div>
               </div>
             );
-          })}
+          })}{" "}
+          <div className="flex items-center justify-end gap-1 pt-6">
+            <button className="btn btn-accent no-animation btn-xs cursor-default">
+              <FaHeart />
+              <span>{data.favorites.length}</span>
+            </button>
+            <button className="btn btn-primary no-animation btn-xs cursor-default">
+              <span>{languageFullName[data.language as string]}</span>
+            </button>
+
+            {data.isPublic ? (
+              <>
+                <button className="btn btn-success no-animation btn-xs cursor-default">
+                  <FaUnlock />
+                  <span>Public</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="btn btn-error no-animation btn-xs cursor-default">
+                  <FaLock />
+                  <span>Private</span>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
