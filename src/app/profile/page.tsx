@@ -27,7 +27,7 @@ export default async function Profile() {
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
   return (
     <main className="flex flex-col items-center justify-center gap-8 animate-fadeIn p-4">
-      <PageTitle title={"Profile"} />
+      <PageTitle title={"My Profile"} />
 
       <ul className="menu bg-base-200/50 w-full md:w-3/4 lg:w-max rounded-box items-center">
         <Settings />
