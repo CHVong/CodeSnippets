@@ -97,7 +97,9 @@ export default function SnippetCardCommentsModal({
             <Image src={`${session?.user.image}`} alt="User image" width={96} height={96} />
           </div>
         </div>
-        <span>{commentData?.length} Total Comments</span>
+        <span>
+          {commentData?.length} Total Comment{commentData?.length > 1 ? "s" : ""}
+        </span>
       </div>
       <div className="py-2">
         <textarea
