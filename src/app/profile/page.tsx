@@ -30,7 +30,7 @@ export default async function Profile() {
       <PageTitle title={"My Profile"} />
 
       <ul className="menu bg-base-200/50 w-full md:w-3/4 lg:w-max rounded-box items-center">
-        <Settings />
+        <Settings sessionId={session?.token?.sub} />
         <div className="avatar self-center pb-4">
           <div className="w-24 rounded-full">
             <Image src={session?.user?.image!} width={500} height={500} alt="profile pic" />

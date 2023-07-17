@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { FaCog, FaExclamationTriangle, FaUndo, FaPencilAlt, FaSave } from "react-icons/fa";
 import { signOut } from "next-auth/react";
 
-export default function Settings() {
+export default function Settings({ sessionId }: { sessionId: string }) {
   const router = useRouter();
   return (
     <div className="dropdown dropdown-bottom dropdown-end self-end tooltip" data-tip="Settings">
@@ -55,6 +55,13 @@ export default function Settings() {
               className="btn btn-outline btn-error"
               onClick={async () => {
                 console.log("hello");
+                const res = await fetch(`/api/profile/delete/${sessionId}`, {
+                  method: "DELETE",
+                });
+                if (!res.ok) {
+                  console.log("Could not delete account");
+                  return;
+                }
                 router.push((await signOut({ redirect: false, callbackUrl: "/" })).url);
               }}
             >
@@ -84,7 +91,7 @@ export default function Settings() {
             This will be displayed to the <span className="font-bold">PUBLIC</span>.
           </p>
           <div className="flex gap-2 justify-center">
-            <div
+            <button
               className="btn btn-outline btn-success"
               // onClick={async () => {
               //   console.log("hello");
@@ -93,7 +100,7 @@ export default function Settings() {
             >
               <FaSave />
               SAVE
-            </div>
+            </button>
 
             <button className="btn btn-outline">
               <FaUndo />
