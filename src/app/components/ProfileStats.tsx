@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaCode, FaStream, FaGlobeAmericas, FaHeart, FaComment, FaFireAlt } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 
@@ -26,7 +26,7 @@ type stats = {
 };
 
 export default function ProfileStats({ sessionId }: { sessionId: string }) {
-  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["stats"],
     queryFn: getStats,
     staleTime: 1000 * 60 * 5,
@@ -117,7 +117,9 @@ export default function ProfileStats({ sessionId }: { sessionId: string }) {
                   : ""
               }`}
             >
-              {data.mostPopularLanguage.map((e: any) => languageFullName[e]).join(", ")}
+              {data.mostPopularLanguage.length > 0
+                ? data.mostPopularLanguage.map((e: any) => languageFullName[e]).join(", ")
+                : "---"}
             </div>
             <div className="stat-desc">most often</div>
           </div>
