@@ -5,6 +5,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import moment from "moment";
 import { FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SnippetCardCommentsModal({
   snippet,
@@ -104,16 +105,20 @@ export default function SnippetCardCommentsModal({
             <div className={`chat ${chatClass} animate-fadeIn`} key={comment.id}>
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <Image
-                    src={`${comment.commenterImage}`}
-                    alt="User image"
-                    width={96}
-                    height={96}
-                  />
+                  <Link href={`${window.location.origin}/profile/${comment.commenterId}`}>
+                    <Image
+                      src={`${comment.commenterImage}`}
+                      alt="User image"
+                      width={96}
+                      height={96}
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="chat-header">
-                <span>{comment.commenterName}</span>
+                <Link href={`${window.location.origin}/profile/${comment.commenterId}`}>
+                  <span>{comment.commenterName}</span>
+                </Link>{" "}
                 <time className="text-xs opacity-50">
                   {/* {moment(commentData.createdAt).format("MMM DD, YYYY h:mm A")} */}{" "}
                   {moment(comment.createdAt).fromNow()}
@@ -140,16 +145,20 @@ export default function SnippetCardCommentsModal({
             <div className={`chat ${chatClass} animate-fadeIn`} key={comment.id}>
               <div className="chat-image avatar">
                 <div className="w-10 rounded-full">
-                  <Image
-                    src={`${comment.commenterImage}`}
-                    alt="User image"
-                    width={96}
-                    height={96}
-                  />
+                  <Link href={`${window.location.origin}/profile/${comment.commenterId}`}>
+                    <Image
+                      src={`${comment.commenterImage}`}
+                      alt="User image"
+                      width={96}
+                      height={96}
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="chat-header">
-                <span>{comment.commenterName}</span>
+                <Link href={`${window.location.origin}/profile/${comment.commenterId}`}>
+                  <span>{comment.commenterName}</span>
+                </Link>{" "}
                 <time className="text-xs opacity-50">
                   {/* {moment(commentData.createdAt).format("MMM DD, YYYY h:mm A")} */}{" "}
                   {moment(comment.createdAt).fromNow()}
