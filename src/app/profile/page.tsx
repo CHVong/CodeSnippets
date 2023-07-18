@@ -9,9 +9,16 @@ import moment from "moment";
 import ProfileStats from "../components/ProfileStats";
 import Settings from "../components/Settings";
 
-export const metadata = {
-  title: "Code Snippets | Profile",
-};
+// export const metadata = {
+//   title: "Code Snippets | Profile",
+// };
+export async function generateMetadata() {
+  const session = await getServerSession(authOptions);
+  const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
+  return {
+    title: `Code Snippets | Profile | ${username}`,
+  };
+}
 
 export default async function Profile() {
   const session = await getServerSession(authOptions);
