@@ -3,8 +3,41 @@
 import { useRouter } from "next/navigation";
 import { FaCog, FaExclamationTriangle, FaUndo, FaPencilAlt, FaSave } from "react-icons/fa";
 import { signOut } from "next-auth/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
-export default function Settings({ sessionId }: { sessionId: string }) {
+export default function Settings({ sessionId, bioprop }: { sessionId: string; bioprop: any }) {
+  const queryClient = useQueryClient();
+  // const cachedData = queryClient.getQueryData(["profileInfo"]);
+
+  const [bio, setBio] = useState(bioprop);
+  const updateBioMutation = useMutation({
+    mutationFn: changeBio,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
+      console.log("Success");
+    },
+  });
+  async function changeBio(event: any) {
+    const form = event.target;
+    const formData = new FormData(form);
+    const payload = Object.fromEntries(formData);
+    payload.bio = bio;
+    console.log(payload);
+
+    const response = await fetch(`/api/profile/updatebio/${sessionId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      throw new Error("Network Error: Failed to update bio");
+    }
+    console.log("Bio updated successfully!");
+    return response;
+  }
   const router = useRouter();
   return (
     <div className="dropdown dropdown-bottom dropdown-end self-end tooltip" data-tip="Settings">
@@ -83,7 +116,13 @@ export default function Settings({ sessionId }: { sessionId: string }) {
       <dialog id="biostatus" className="modal">
         <form method="dialog" className="modal-box">
           <h3 className="font-bold text-lg pb-4">Edit Your Bio/Status</h3>
-          <textarea className="textarea textarea-primary" placeholder="Bio"></textarea>
+          <textarea
+            name="bio"
+            className="textarea textarea-primary"
+            placeholder={"Enter your bio/status..."}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          ></textarea>
 
           <p className="py-4">
             Include a bio or share your current status.
@@ -97,6 +136,7 @@ export default function Settings({ sessionId }: { sessionId: string }) {
               //   console.log("hello");
               //   router.push((await signOut({ redirect: false, callbackUrl: "/" })).url);
               // }}
+              onClick={() => updateBioMutation.mutate(bio)}
             >
               <FaSave />
               SAVE
