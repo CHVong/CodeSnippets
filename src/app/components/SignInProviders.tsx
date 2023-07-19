@@ -15,7 +15,7 @@ export default function SignInProviders() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 border-2 border-neutral p-6 md:p-8 lg:p-10 grow rounded-lg m-6">
+    <div className="flex flex-col items-center justify-center gap-2 border-2 border-neutral bg-base-200 p-6 md:p-8 lg:p-10 grow rounded-lg m-6">
       <h2 className="pb-4 font-bold text-xl">Select your provider</h2>
       <button className="btn btn-neutral w-full justify-start" onClick={handleDiscordSignIn}>
         <FaDiscord className="text-lg" />

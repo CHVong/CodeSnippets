@@ -79,7 +79,7 @@ export default function SnippetCardSetLanguage({
           <option value="markup">Other</option>
         </select>
       ) : (
-        <div className="badge badge-outline font-bold">
+        <div className="badge  badge-info font-bold">
           {languageFullName[snippet.language as string]}
         </div>
       )}

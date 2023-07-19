@@ -29,7 +29,7 @@ export default async function Home() {
         A place created to help developers store and retrieve their reusable codes
       </p>
 
-      <div className="stats shadow animate-fadeIn stats-vertical md:stats-horizontal bg-white/75">
+      <div className="stats shadow animate-fadeIn stats-vertical md:stats-horizontal">
         <div className="stat">
           <div className="stat-figure text-secondary col-start-1">
             <div className="w-16 rounded-full">

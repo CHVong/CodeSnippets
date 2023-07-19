@@ -31,6 +31,11 @@ export default async function page({ params }: profileParam) {
   {
     session?.token?.sub === params.id ? redirect("/profile") : "";
   }
+  if (!user) {
+    return redirect("/404");
+    // this will display your /pages/404.js error page,
+    // in the current page, with the 404 http status code.
+  }
   return (
     <main className="flex flex-col items-center justify-center p-4">
       <PageTitle title={`${username}'s Profile`} />
