@@ -132,10 +132,6 @@ export default function Settings({ sessionId, bioprop }: { sessionId: string; bi
           <div className="flex gap-2 justify-center">
             <button
               className="btn btn-outline btn-success"
-              // onClick={async () => {
-              //   console.log("hello");
-              //   router.push((await signOut({ redirect: false, callbackUrl: "/" })).url);
-              // }}
               onClick={() => updateBioMutation.mutate(bio)}
             >
               <FaSave />
