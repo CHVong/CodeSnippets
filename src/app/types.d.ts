@@ -10,5 +10,4 @@ type Snippet = {
   posterName: string;
   createdAt: ReactNode;
   updatedAt: ReactNode;
-  bio: string;
 };
