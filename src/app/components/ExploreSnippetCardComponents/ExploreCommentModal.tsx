@@ -20,7 +20,7 @@ export default function SnippetCardCommentsModal({
   const queryClient = useQueryClient();
   const username = `${session?.user.name}#${session?.token.sub.slice(-4).toUpperCase()}`;
 
-  console.log(commentData);
+  const reversedCommentData = commentData?.slice().reverse();
 
   const createCommentMutation = useMutation({
     mutationFn: submitComment,
@@ -146,13 +146,13 @@ export default function SnippetCardCommentsModal({
       <div className="tabs py-4 justify-center">
         <a
           className={`tab tab-bordered ${newest ? "tab-active animate-fadeIn" : ""}`}
-          onClick={() => setNewest(!newest)}
+          onClick={() => setNewest(true)}
         >
           Newest
         </a>
         <a
           className={`tab tab-bordered ${newest ? "" : "tab-active animate-fadeIn"}`}
-          onClick={() => setNewest(!newest)}
+          onClick={() => setNewest(false)}
         >
           Oldest
         </a>
@@ -207,13 +207,13 @@ export default function SnippetCardCommentsModal({
           );
         })
       ) : commentData?.length && !newest ? (
-        [...commentData].reverse().map((comment: any, index: any) => {
+        reversedCommentData.map((comment: any, index: any) => {
           const isCurrentUser = comment.commenterName === username;
-          const isSameUser = comment.commenterId === commentData[index - 1]?.commenterId;
+          const isSameUser = comment.commenterId === reversedCommentData[index - 1]?.commenterId;
           const chatClass = isCurrentUser
             ? "chat-end"
             : isSameUser
-            ? commentData[index - 1]?.chatClass
+            ? reversedCommentData[index - 1]?.chatClass
             : "chat-start";
 
           comment.chatClass = chatClass;

@@ -19,7 +19,7 @@ export default function SnippetCardCommentsModal({
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
-  console.log(commentData);
+  const reversedCommentData = commentData?.slice().reverse();
 
   return (
     <div className="">
@@ -76,13 +76,13 @@ export default function SnippetCardCommentsModal({
       <div className="tabs py-4 justify-center">
         <a
           className={`tab tab-bordered ${newest ? "tab-active animate-fadeIn" : ""}`}
-          onClick={() => setNewest(!newest)}
+          onClick={() => setNewest(true)}
         >
           Newest
         </a>
         <a
           className={`tab tab-bordered ${newest ? "" : "tab-active animate-fadeIn"}`}
-          onClick={() => setNewest(!newest)}
+          onClick={() => setNewest(false)}
         >
           Oldest
         </a>
@@ -128,17 +128,28 @@ export default function SnippetCardCommentsModal({
             </div>
           );
         })
-      ) : commentData?.length && !newest ? (
-        [...commentData].reverse().map((comment: any, index: any) => {
+      ) : commentData?.length && newest === false ? (
+        reversedCommentData.map((comment: any, index: any) => {
           const isFirstMessage = index === 0;
-          const isSameUser = comment.commenterId === commentData[index - 1]?.commenterId;
-          const chatClass = isFirstMessage
-            ? "chat-start"
-            : isSameUser
-            ? commentData[index - 1]?.chatClass
-            : commentData[index - 1]?.chatClass === "chat-start"
-            ? "chat-end"
-            : "chat-start";
+          const nextComment = reversedCommentData[index + 1]; // Get the next comment in the reversed array
+
+          // If there is no next comment, set isSameUser to false
+          const isSameUser = nextComment ? comment.commenterId === nextComment.commenterId : false;
+
+          let chatClass;
+          if (isFirstMessage) {
+            chatClass = "chat-start";
+          } else {
+            const prevComment = reversedCommentData[index - 1]; // Get the previous comment in the reversed array
+
+            // If previous and current comment have the same user, continue with the same class as the previous comment
+            if (prevComment && comment.commenterId === prevComment.commenterId) {
+              chatClass = prevComment.chatClass;
+            } else {
+              // If different user, switch the class from "chat-start" to "chat-end" or vice versa
+              chatClass = prevComment?.chatClass === "chat-start" ? "chat-end" : "chat-start";
+            }
+          }
 
           comment.chatClass = chatClass;
           return (
