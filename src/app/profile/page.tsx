@@ -24,7 +24,7 @@ export async function generateMetadata() {
 export default async function Profile() {
   const session = await getServerSession(authOptions);
   if (!session) {
-    redirect("http://localhost:3000/signin"); // redirect internally throws error? Uncaught Error: NEXT_REDIRECT
+    redirect("/signin"); // redirect internally throws error? Uncaught Error: NEXT_REDIRECT
   }
   const User = await prisma.user.findUnique({
     where: {

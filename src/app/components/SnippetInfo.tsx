@@ -19,7 +19,7 @@ export default function SnippetInfo({ param, session }: { param: string; session
   });
 
   async function getSnippetInfo() {
-    const response = await await fetch(`http://localhost:3000/api/snippets/snippetinfo/${param}`);
+    const response = await await fetch(`/api/snippets/snippetinfo/${param}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

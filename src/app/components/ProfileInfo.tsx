@@ -14,7 +14,7 @@ export default function ProfileInfo({ user }: any) {
   });
 
   async function getProfileInfo() {
-    const response = await fetch(`http://localhost:3000/api/profile/get/${user.id}`);
+    const response = await fetch(`/api/profile/get/${user.id}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

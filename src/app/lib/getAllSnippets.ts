@@ -1,6 +1,6 @@
 export async function getAllSnippets() {
   try {
-    const response = await fetch("http://localhost:3000/api/getallsnippets", { cache: "no-store" });
+    const response = await fetch("/api/getallsnippets", { cache: "no-store" });
     const snippets = await response.json();
     console.log(snippets);
 
