@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "jest",
     "coverage": "jest --coverage",
-    "db:generate": "prisma generate"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
