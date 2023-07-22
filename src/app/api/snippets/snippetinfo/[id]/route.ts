@@ -25,6 +25,12 @@ export async function GET(request: Request, params: { params: snippetid }) {
       });
     }
 
+    if (!snippets) {
+      return new Response(JSON.stringify(snippets), {
+        status: 404,
+      });
+    }
+
     const snippetsWithCommentCount = {
       ...snippets,
       totalComments: snippets?.comments.length,

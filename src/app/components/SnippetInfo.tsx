@@ -10,16 +10,21 @@ import Image from "next/image";
 import SnippetCardExpandButton from "./SnippetCardComponents/SnippetCardExpandButton";
 import SnippetInfoExpandButton from "./SnippetInfoExpandButton";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function SnippetInfo({ param, session }: { param: string; session: Session }) {
-  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
+  const router = useRouter();
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["snippetinfo"],
     queryFn: getSnippetInfo,
     staleTime: 1000 * 60 * 5,
   });
 
   async function getSnippetInfo() {
-    const response = await await fetch(`/api/snippets/snippetinfo/${param}`);
+    const response = await fetch(`/api/snippets/snippetinfo/${param}`);
+    if (response.status === 404) {
+      router.push("/404");
+    }
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -37,7 +42,7 @@ export default function SnippetInfo({ param, session }: { param: string; session
       </div>
     );
   }
-  console.log(data);
+
   const languageFullName: { [key: string]: string } = {
     markup: "Other",
     js: "Javascript",
@@ -71,13 +76,15 @@ export default function SnippetInfo({ param, session }: { param: string; session
           <p className="text-center font-bold underline">
             {data.totalComments} Total Comment{data.totalComments > 1 ? "s" : ""}
           </p>
-          {data.comments.map((comment: any, index: any) => {
-            const isCurrentUser = comment.commenterName === username;
-            const isSameUser = comment.commenterId === data.comments[index - 1]?.commenterId;
-            const chatClass = isCurrentUser
-              ? "chat-end"
+          {data?.comments?.map((comment: any, index: any) => {
+            const isFirstMessage = index === 0;
+            const isSameUser = comment.commenterId === data?.comments[index - 1]?.commenterId;
+            const chatClass = isFirstMessage
+              ? "chat-start"
               : isSameUser
-              ? data.comments[index - 1]?.chatClass
+              ? data?.comments[index - 1]?.chatClass
+              : data?.comments[index - 1]?.chatClass === "chat-start"
+              ? "chat-end"
               : "chat-start";
 
             comment.chatClass = chatClass;
@@ -111,7 +118,7 @@ export default function SnippetInfo({ param, session }: { param: string; session
           <div className="flex items-center justify-end gap-1 pt-6">
             <button className="btn btn-accent no-animation btn-xs cursor-default">
               <FaHeart />
-              <span>{data.favorites.length}</span>
+              <span>{data.favorites?.length}</span>
             </button>
             <button className="btn btn-primary no-animation btn-xs cursor-default">
               <span>{languageFullName[data.language as string]}</span>
