@@ -38,7 +38,7 @@ export default async function page({ params }: profileParam) {
   }
   return (
     <main className="flex flex-col items-center justify-center p-4">
-      <PageTitle title={`${username}'s Profile`} />
+      <PageTitle title={`Profile`} />
       <ul className="menu bg-base-200/50 w-full md:w-3/4 lg:w-max rounded-box items-center">
         <div className="avatar self-center py-4">
           <div className="w-24 rounded-full">

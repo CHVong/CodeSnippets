@@ -157,7 +157,25 @@ export default function About() {
           <div className="collapse bg-base-200/50 collapse-arrow">
             <input type="checkbox" />
             <div className="collapse-title text-xl font-medium">
-              What Was Used To Build This Website?
+              Why Can't I See My Public Snippets In the Explore Page?
+            </div>
+            <div className="collapse-content">
+              <p>
+                Don't worry! Even though you can't see it, your public snippets are still there for
+                other users and guests. The explore page is meant for you to discover other user's
+                snippets and to not be clogged by your own snippets when you are browsing.
+                <br />
+                <span className="text-sm">
+                  <span className="font-bold">Note:</span> You can still view your publically set
+                  snippets in the explore page if you sign out.
+                </span>
+              </p>
+            </div>
+          </div>
+          <div className="collapse bg-base-200/50 collapse-arrow">
+            <input type="checkbox" />
+            <div className="collapse-title text-xl font-medium">
+              What Was Used To Build this Website?
             </div>
             <div className="collapse-content">
               <p>
