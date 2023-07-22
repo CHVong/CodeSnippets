@@ -8,7 +8,7 @@ type session = {
 
 export async function GET(request: Request, params: { params: session }) {
   const postid = params.params.id;
-  console.log(postid);
+  // console.log(postid);
   const comments = await prisma.snippetComment.findMany({
     where: {
       codeSnippetId: postid,

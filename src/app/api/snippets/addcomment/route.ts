@@ -4,7 +4,7 @@ import { prisma } from "../../../../../prisma/client";
 export async function POST(request: Request) {
   try {
     const { codeSnippetId, commenterId, commenterName, comment } = await request.json();
-    console.log(codeSnippetId, commenterId, commenterName, comment);
+    // console.log(codeSnippetId, commenterId, commenterName, comment);
 
     const newComment = await prisma.snippetComment.create({
       data: {
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       },
     });
     newComment.commenterImage = commenterImage?.image as any;
-    console.log(newComment);
+    // console.log(newComment);
     return new Response(JSON.stringify(newComment), { status: 200 });
   } catch (error) {
     console.log(error);

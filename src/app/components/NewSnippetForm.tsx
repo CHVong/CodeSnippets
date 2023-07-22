@@ -39,7 +39,7 @@ export default function NewSnippetForm() {
     if (!response.ok) {
       throw new Error("Network Error: Failed to create snippet");
     }
-    console.log("Snippet created successfully!");
+    // console.log("Snippet created successfully!");
     return response;
   }
 
@@ -47,7 +47,7 @@ export default function NewSnippetForm() {
     mutationFn: submitCode,
     onSuccess: () => {
       // queryClient.invalidateQueries({ queryKey: ["snippets"] });
-      console.log("Success");
+      // console.log("Success");
     },
   });
   // const submitCode: FormEventHandler<HTMLFormElement> = async (event) => {

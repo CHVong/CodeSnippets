@@ -3,7 +3,7 @@ import { prisma } from "../../../../../prisma/client";
 
 export async function PATCH(request: Request) {
   const { snippetId, title } = await request.json();
-  console.log(snippetId, title);
+  // console.log(snippetId, title);
 
   try {
     const data = await prisma.codeSnippet.update({
@@ -17,7 +17,7 @@ export async function PATCH(request: Request) {
       message: message,
       data: data,
     };
-    console.log(responseData);
+    // console.log(responseData);
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });

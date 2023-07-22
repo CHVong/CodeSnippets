@@ -12,13 +12,13 @@ export default function SnippetCardFavorites({
 }) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  console.log(sessionId);
+  // console.log(sessionId);
   const addFavoriteMutation = useMutation({
     mutationFn: addFavorite,
     onSuccess: (data) => {
       queryClient.setQueryData(["snippets", sessionId], (oldData: any) => {
-        console.log(oldData);
-        console.log(data);
+        // console.log(oldData);
+        // console.log(data);
         const newData = oldData.snippets.map((snippet: any) => {
           if (snippet.id === data.id) {
             return { ...snippet, favorites: data.favorites };
@@ -26,7 +26,7 @@ export default function SnippetCardFavorites({
         });
         return { ...oldData, snippets: newData };
       });
-      console.log("successfully favorited a comment");
+      // console.log("successfully favorited a comment");
     },
   });
 
@@ -45,7 +45,7 @@ export default function SnippetCardFavorites({
     if (!response.ok) {
       throw new Error("Network Error: Failed to add a comment");
     }
-    console.log("Favorited successfully!");
+    // console.log("Favorited successfully!");
     return response.json();
   }
 

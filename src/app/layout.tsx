@@ -4,6 +4,7 @@ import { Space_Grotesk } from "next/font/google";
 import ProvidersWrapper from "./components/ProvidersWrapper";
 import { ReactQueryProviderWrapper } from "./components/ReactQueryProviderWrapper";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Analytics } from "@vercel/analytics/react";
 
 const space_grotesk = Space_Grotesk({ subsets: ["latin"] });
 import Navbar from "./components/Navbar";
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </ProvidersWrapper>
           <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryProviderWrapper>
+        <Analytics />
       </body>
     </html>
   );

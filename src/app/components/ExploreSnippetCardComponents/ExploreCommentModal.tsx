@@ -33,7 +33,7 @@ export default function SnippetCardCommentsModal({
         const newData = [data, ...oldData];
         return newData;
       });
-      console.log("successfully submitted a comment");
+      // console.log("successfully submitted a comment");
     },
   });
   const deleteCommentMutation = useMutation({
@@ -46,7 +46,7 @@ export default function SnippetCardCommentsModal({
         const newData = oldData.filter((comment: any) => comment.id !== data.id);
         return newData;
       });
-      console.log("successfully submitted a comment");
+      // console.log("successfully submitted a comment");
     },
   });
 
@@ -68,7 +68,7 @@ export default function SnippetCardCommentsModal({
     if (!response.ok) {
       throw new Error("Network Error: Failed to add a comment");
     }
-    console.log("Comment created successfully!");
+    // console.log("Comment created successfully!");
     setComment("");
     return response.json();
   }
@@ -86,7 +86,7 @@ export default function SnippetCardCommentsModal({
     if (!response.ok) {
       throw new Error("Network Error: Failed to delete a comment");
     }
-    console.log("Comment deleted successfully!");
+    // console.log("Comment deleted successfully!");
     return response.json();
   }
 

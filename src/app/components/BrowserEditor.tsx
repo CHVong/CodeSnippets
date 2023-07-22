@@ -53,7 +53,7 @@ export default function BrowserEditor() {
         value={code}
         onValueChange={(code) => {
           setCode(code);
-          console.log(code);
+          // console.log(code);
         }}
         highlight={(code) =>
           hightlightWithLineNumbers(code, Prism.languages[codeLanguage], `${codeLanguage}`)

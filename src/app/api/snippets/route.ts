@@ -7,7 +7,7 @@ export async function POST(request: Request) {
       await request.json();
     const myBoolean = JSON.parse(isPublic.toString());
 
-    console.log(isPublic, typeof isPublic, myBoolean, typeof myBoolean);
+    // console.log(isPublic, typeof isPublic, myBoolean, typeof myBoolean);
 
     //logs false, string, false, boolean
 
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   const { snippetId, isPublic } = await request.json();
-  console.log(snippetId, isPublic, !isPublic);
+  // console.log(snippetId, isPublic, !isPublic);
 
   try {
     const data = await prisma.codeSnippet.update({
@@ -66,7 +66,7 @@ export async function PATCH(request: Request) {
       message: message,
       data: data,
     };
-    console.log(responseData);
+    // console.log(responseData);
     return new Response(JSON.stringify(responseData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify(error), { status: 500 });

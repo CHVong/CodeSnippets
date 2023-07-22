@@ -13,7 +13,7 @@ export async function DELETE(request: Request, params: { params: session }) {
   }
   try {
     const id = params.params.id;
-    console.log(id);
+    // console.log(id);
 
     const deletedAccount = await prisma.user.delete({
       where: {
@@ -21,7 +21,7 @@ export async function DELETE(request: Request, params: { params: session }) {
       },
     });
 
-    console.log(deletedAccount);
+    // console.log(deletedAccount);
     return new Response(JSON.stringify(deletedAccount), { status: 200 });
   } catch (error) {
     console.log(error);

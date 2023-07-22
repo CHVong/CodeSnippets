@@ -4,7 +4,7 @@ import { prisma } from "../../../../../prisma/client";
 export async function PATCH(request: Request) {
   try {
     const { commentId } = await request.json();
-    console.log(commentId);
+    // console.log(commentId);
 
     const deletedComment = await prisma.snippetComment.delete({
       where: {
@@ -12,7 +12,7 @@ export async function PATCH(request: Request) {
       },
     });
 
-    console.log(deletedComment);
+    // console.log(deletedComment);
     return new Response(JSON.stringify(deletedComment), { status: 200 });
   } catch (error) {
     console.log(error);

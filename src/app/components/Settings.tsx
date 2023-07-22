@@ -15,7 +15,7 @@ export default function Settings({ sessionId, bioprop }: { sessionId: string; bi
     mutationFn: changeBio,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profileInfo"] });
-      console.log("Success");
+      // console.log("Success");
     },
   });
   async function changeBio(event: any) {
@@ -23,7 +23,7 @@ export default function Settings({ sessionId, bioprop }: { sessionId: string; bi
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData);
     payload.bio = bio;
-    console.log(payload);
+    // console.log(payload);
 
     const response = await fetch(`/api/profile/updatebio/${sessionId}`, {
       method: "PATCH",
@@ -35,7 +35,7 @@ export default function Settings({ sessionId, bioprop }: { sessionId: string; bi
     if (!response.ok) {
       throw new Error("Network Error: Failed to update bio");
     }
-    console.log("Bio updated successfully!");
+    // console.log("Bio updated successfully!");
     return response;
   }
   const router = useRouter();
@@ -87,7 +87,7 @@ export default function Settings({ sessionId, bioprop }: { sessionId: string; bi
             <div
               className="btn btn-outline btn-error"
               onClick={async () => {
-                console.log("hello");
+                // console.log("hello");
                 const res = await fetch(`/api/profile/delete/${sessionId}`, {
                   method: "DELETE",
                 });

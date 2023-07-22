@@ -30,7 +30,7 @@ export default function SnippetCardDelete({
     if (!response.ok) {
       throw new Error("Network Error: Failed to delete snippet");
     }
-    console.log("snippet deleted");
+    // console.log("snippet deleted");
     return response.json();
   }
 

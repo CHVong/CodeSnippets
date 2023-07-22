@@ -3,7 +3,7 @@ import { prisma } from "../../../../../prisma/client";
 
 export async function PATCH(request: Request) {
   const { sessionId, codeSnippetId } = await request.json();
-  console.log(sessionId, codeSnippetId);
+  // console.log(sessionId, codeSnippetId);
 
   try {
     // Find the CodeSnippet by its ID
