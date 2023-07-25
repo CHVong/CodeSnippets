@@ -41,6 +41,7 @@ Explore as a guest or login with Discord, Github, or Google for full site functi
 - **Database:** PostgreSQL with Prisma ORM
 - **Authentication:** NextAuth.js
 - **State Management:** Tanstack Query (React-Query)
+- **Testing:** Jest
 - **Code Editor:** React Simple Code Editor with PrismJS highlighting
 - **Hosting:** Vercel 
 
