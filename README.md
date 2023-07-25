@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# CodeSnippets: A Place for Developers to Store and Retrieve Reusable Codes
 
-First, run the development server:
+CodeSnippets is a web application that helps developers save time and effort by storing/retrieving their reusable codes. You can build your own personal library of code snippets, easily integrate them into your projects, and explore other snippets created by the community.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<div align="center" >
+<img src="https://github.com/BrunchWithYou/CodeSnippets/assets/84001929/12ceefe2-22be-47c6-bf97-5a38051026a2" alt="Home Page" width="650">
+</div>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo
+Visit [https://codesnippets.vercel.app/](https://codesnippets.vercel.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Explore as a guest or login with Discord, Github, or Google for full site functionality
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Snippets:** View and edit your collections at any time.
+- **Syntax Highlighting:** Highlight your code with language selections.
+- **Syntax Formatting:** Keep your code syntax formatted exactly how you pasted them.
+- **Explore:** Browse, search, and filter to discover new snippets.
+- **Create:** Add and save to your collection of code snippets.
+- **Favorites/Comments:** Favorite to save other user's snippets and leave comments for discussions.
+- **Public/Private:** Enable or disable sharing for your individual snippets.
+- **Sharing:** Access to individual snippet info links.
+- **Profile:** Track personal statistics, update bio/status or delete your account.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+<div align="center" >
+<img src="https://github.com/BrunchWithYou/CodeSnippets/assets/84001929/f4d8d99d-ef6f-45a9-b49d-53a9f4483e5b" alt="Profile Page" width="500">
+</div>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Tech Stack
+
+- **Meta-framework:** Next.js with Typescript
+- **UI Framework:** TailwindCSS with DaisyUI
+- **Frontend:** React.js
+- **Backend/API:** Next.js API routes and server-side rendering
+- **Database:** PostgreSQL with Prisma ORM
+- **Authentication:** NextAuth.js
+- **State Management:** Tanstack Query (React-Query)
+- **Code Editor:** React Simple Code Editor with PrismJS highlighting
+- **Hosting:** Vercel 
+
