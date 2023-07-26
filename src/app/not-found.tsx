@@ -5,9 +5,9 @@ import PageTitle from "./components/PageTitle";
 
 export default function NotFound() {
   return (
-    <main className="flex flex-col items-center justify-center p-4">
+    <main className="flex flex-col items-center justify-center p-4 gap-4">
       <PageTitle title={"Error 404!"} />
-      <div className="alert alert-error max-w-md">
+      <div className="alert alert-error max-w-lg">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="stroke-current shrink-0 h-6 w-6"
@@ -25,7 +25,7 @@ export default function NotFound() {
       </div>
       <div>
         <Link href={"/"}>
-          <button className="btn btn-secondary m-4">Back Home</button>
+          <button className="btn btn-secondary m-3">Back Home</button>
         </Link>
 
         <button
@@ -33,11 +33,16 @@ export default function NotFound() {
             // Attempt to recover by trying to re-render the segment
             () => window.location.reload()
           }
-          className="btn btn-neutral m-4"
+          className="btn btn-neutral m-3"
         >
           Try Again
         </button>
       </div>
+      <iframe
+        src="https://giphy.com/embed/bAlYQOugzX9sY"
+        className="pointer-events-none pt-10"
+        allowFullScreen
+      ></iframe>
     </main>
   );
 }
