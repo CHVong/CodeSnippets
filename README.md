@@ -45,3 +45,8 @@ Explore as a guest or login with Discord, Github, or Google for full site functi
 - **Code Editor:** React Simple Code Editor with PrismJS highlighting
 - **Hosting:** Vercel 
 
+## Contributing
+
+Contributions are always welcome!
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for ways to get started.
