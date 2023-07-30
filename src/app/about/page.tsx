@@ -239,7 +239,11 @@ export default function About() {
             <div className="collapse-content">
               <p>
                 Yes! You can find the Github link{" "}
-                <Link href={"/#"} target="_blank" className="text-blue-500 underline">
+                <Link
+                  href={"https://github.com/CHVong/CodeSnippets"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
                   HERE
                 </Link>
               </p>
@@ -254,7 +258,11 @@ export default function About() {
               <p>
                 Bugs, suggestions, and contributions of any kind are welcomed. You can create a
                 Github issue{" "}
-                <Link href={"/#"} target="_blank" className="text-blue-500 underline">
+                <Link
+                  href={"https://github.com/CHVong/CodeSnippets/issues"}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
                   HERE
                 </Link>
               </p>
